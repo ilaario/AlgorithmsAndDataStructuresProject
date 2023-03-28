@@ -18,3 +18,16 @@ void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t 
         insertionSort(base, nitems, size, compar);
     }
 }
+
+void insertionSort(int *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
+    int i,j,curr_val;
+    for(i=1; i<=nitems; i++){
+        curr_val = base[i];
+        j = i-1;
+        while(j>=0 && base[j]>curr_val){
+            base[j+1]=base[j];
+            j=j-1;
+        }
+        base[j+1]=curr_val;
+    }
+}
