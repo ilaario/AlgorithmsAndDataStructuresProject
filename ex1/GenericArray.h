@@ -1,13 +1,22 @@
 #ifndef GENERIC_ARRAY_H_adsnoiqpfmoa
 #define GENERIC_ARRAY_H_adsnoiqpfmoa
 
-typedef struct _GenericArray GenericArray;
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct _GenericArray {
+    void **array;
+    size_t n_el;
+    size_t length;
+}GenericArray;
+
+//typedef struct _GenericArray GenericArray;
 GenericArray* newGenericArray();
-unsigned long sizeGA(GenericArray* ga);
-void* insertGA(GenericArray* ga, void* new_el);
-void* updateIndexGA(GenericArray* ga, void* new_el, unsigned long index);
-void* getGA(GenericArray* ga, unsigned long index);
-int clearGA(GenericArray* ga);
-int destroyGA(GenericArray* ga);
+unsigned long sizeGA(GenericArray* ga); //return the number of elements in the array
+void* insertGA(GenericArray* ga, void* new_el); //insert a new element in the array
+void* updateIndexGA(GenericArray* ga, void* new_el, unsigned long index); //update the element in the array at the given index
+void* getGA(GenericArray* ga, unsigned long index); //return the element in the array at the given index
+int clearGA(GenericArray* ga); //reset all the array's elements to 0
+int destroyGA(GenericArray* ga); //remove the array
 
 #endif
