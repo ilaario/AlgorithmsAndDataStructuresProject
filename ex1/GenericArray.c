@@ -36,7 +36,7 @@ GenericArray *newGenericArray() {
 
 unsigned long sizeGA(GenericArray *ga) {                                        // return the number of elements in the array
     if(ga == NULL){
-        return NULL;
+        exit(EXIT_FAILURE);
     }
 
     return ga -> n_el;
@@ -100,7 +100,7 @@ void* getGA(GenericArray *ga, unsigned long index){                     // retur
 
 int clearGA(GenericArray *ga){
     if(ga == NULL){
-        return NULL;
+        exit(EXIT_FAILURE);
     }
 
     for(unsigned long i = 0; i < ga -> n_el; i++){
@@ -114,7 +114,7 @@ int clearGA(GenericArray *ga){
 
 int destroyGA(GenericArray *ga){
     if(ga == NULL){
-        return NULL;
+        exit(EXIT_FAILURE);
     }
 
     free(ga -> array);

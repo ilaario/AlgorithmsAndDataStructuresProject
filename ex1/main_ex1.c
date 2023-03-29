@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <time.h>
 
 #define STOP_COUNT 1000000
@@ -14,14 +15,40 @@ struct record {
     double float_f;
 };
 
+/*
+ send +                                     9*** +
+ more =         m = 1  s = 9  o = 2         12** =
+money                                      12***
+*/
+
+
 void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*));
 static void read_array(const char* fp, GenericArray* ga);
 
 int main(int argc, char *argv[]){
-    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    int len = sizeof(a)/sizeof(a[0]);
-    int size = sizeof(a[0]);
-    merge_binary_insertion_sort(a, len, size, 5, cmp_void(0, len - 1));
+    if(argc < 2){
+        printf("main: Error, missing arguments\n");
+        exit(EXIT_FAILURE);
+    }
+    clock_t begin = clock();
+    //sleep(2);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent ordering the string's array: %f\n", time_spent);
+
+    begin = clock();
+    //sleep(2);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent ordering the integer's array: %f\n", time_spent);
+
+    begin = clock();
+    //sleep(2);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent ordering the floats's array: %f\n", time_spent);
+
+    return(EXIT_SUCCESS);
 }
 
 void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*)){
@@ -39,7 +66,7 @@ void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t 
     }
     else{
         printf("Insertion sort\n");
-        insertionSort(base, nitems, size, compar);
+        //insertionSort(base, nitems, size, compar);
     }
 }
 
