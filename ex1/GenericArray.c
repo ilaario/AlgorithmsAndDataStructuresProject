@@ -1,17 +1,8 @@
 #include "GenericArray.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #ifndef INITIAL_ARRAY_SIZE
 #define INITIAL_ARRAY_SIZE 10
 #endif
-
-struct _GenericArray {
-    void **array;
-    size_t n_el;
-    size_t length;
-};
 
 GenericArray *newGenericArray() {
     GenericArray *ga = malloc(sizeof(GenericArray));                  // allocate memory for the struct
@@ -29,14 +20,14 @@ GenericArray *newGenericArray() {
         ga -> array[i] = NULL;
     }
 
-    ga -> n_el = 0;
+    ga -> n_el = 1;
     ga -> length = INITIAL_ARRAY_SIZE;
     return ga;
 }
 
 unsigned long sizeGA(GenericArray *ga) {                                        // return the number of elements in the array
     if(ga == NULL){
-        return NULL;
+        exit(EXIT_FAILURE);
     }
 
     return ga -> n_el;
@@ -100,7 +91,7 @@ void* getGA(GenericArray *ga, unsigned long index){                     // retur
 
 int clearGA(GenericArray *ga){
     if(ga == NULL){
-        return NULL;
+        exit(EXIT_FAILURE);
     }
 
     for(unsigned long i = 0; i < ga -> n_el; i++){
@@ -114,7 +105,7 @@ int clearGA(GenericArray *ga){
 
 int destroyGA(GenericArray *ga){
     if(ga == NULL){
-        return NULL;
+        exit(EXIT_FAILURE);
     }
 
     free(ga -> array);
