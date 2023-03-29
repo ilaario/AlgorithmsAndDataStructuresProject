@@ -28,35 +28,34 @@ static void read_array(const char* fp, GenericArray* ga);
 
 int main(int argc, char *argv[]){
     GenericArray *ga = newGenericArray();
-    for(int i = 0; i < 10; i++){
+    //printf("Array before sorting: ");
+    for(int i = 0; i < 100000; i++){
         int *value;
-        int v = rand()%10;
+        int v = rand();
         value = v;
-        printf("Inserted item: %d\nNumber of elements in ga: %d\n", value, ga -> n_el);
+        //printf("%d ", value);
         insertGA(ga, value);
     }
     printf("\n");
     printf("Array size: %d", ga -> n_el);
-    printf("\n");
-    printf("Array after sorting: ");
-
-    insertionSort(ga, 10, sizeof(int), NULL);
-
-    for(int i = 0; i < 10; i++){
-        int *q = getGA(ga, i);
-        printf("%d ", q);
-    }
-    printf("\n");
+  /*
     if(argc < 2){
         printf("main: Error, missing arguments\n");
         exit(EXIT_FAILURE);
-    }
+    } */
     clock_t begin = clock();
-    //sleep(2);
+    insertionSort(ga, ga -> n_el, sizeof(int), NULL);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent ordering the string's array: %f\n", time_spent);
-
+    printf("\n");
+    /*printf("Array after sorting: ");
+    for(int i = 0; i < 10; i++){
+        int *q = getGA(ga, i);
+        printf("%d ", q);
+    }*/
+    printf("\n");
+    printf("Time spent ordering the string's array: %fs\n", time_spent);
+/*
     begin = clock();
     //sleep(2);
     end = clock();
@@ -68,7 +67,7 @@ int main(int argc, char *argv[]){
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("Time spent ordering the floats's array: %f\n", time_spent);
-
+*/
     return(EXIT_SUCCESS);
 }
 
