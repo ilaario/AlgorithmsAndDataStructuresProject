@@ -24,6 +24,8 @@ money                                      12***
 
 void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*));
 void insertionSort(GenericArray *ga, size_t nitems, size_t size, int (*compar)(const void *, const void*));
+void merge(int *base, int left, int mid, int right);
+void mergeSort(int *base, int left, int right);
 static void read_array(const char* fp, GenericArray* ga);
 
 int main(int argc, char *argv[]){
@@ -160,6 +162,61 @@ void insertionSort(GenericArray *ga, size_t nitems, size_t size, int (*compar)(c
         updateIndexGA(ga, curr_val, j+1);
     }
 }
+
+
+void merge(int *base, int left, int mid, int right){
+    int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  //nitems = 13: 1 2 3 4 5 6 7 8 9 10 11 12 13
+    //creation of temp arrays
+    int Left[div_1], Right[div_2]; 
+
+    for(i=0;i<div_1;i++){
+        Left[i]= base[left+i]; 
+    }
+    for(j=0;j<div_2;j++){
+        Right[j]= base[mid+1+j];
+    }
+
+    i=0;  
+    j=0;
+    k=left;
+
+    while(i<div_1 && j<div_2){
+        if(Left[i]<=Right[j]){
+            base[k]=Left[i];
+            i++;
+        }
+        else {
+            base[k]=Right[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < div_1) {
+        base[k] = Left[i];
+        i++;
+        k++;
+    }
+ 
+    while (j < div_2) {
+        base[k] = Right[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int *base, int left, int right){
+    if(left<right){
+        int mid = left+(right-left)/2;
+        mergeSort(base,left,mid);
+        mergeSort(base,mid+1,right);
+        merge(base,left,mid,right);
+    }
+}
+
+
+
+
 
 /*void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
     int i,j;
