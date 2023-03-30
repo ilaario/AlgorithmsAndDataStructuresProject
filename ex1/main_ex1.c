@@ -1,60 +1,33 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <time.h>
-
-#define STOP_COUNT 1000000
-
-#include "GenericArray.h"
-
-struct record {
-    int id;
-    char* str_f;
-    int int_f;
-    double float_f;
-};
-
-/*
- send +                                     9*** +
- more =         m = 1  s = 9  o = 2         12** =
-money                                      12***
-*/
-
-
-void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*));
-void insertionSort(GenericArray *ga, size_t nitems, size_t size, int (*compar)(const void *, const void*));
-static void read_array(const char* fp, GenericArray* ga);
+#include "main_ex1.h"
 
 int main(int argc, char *argv[]){
-    GenericArray *ga = newGenericArray();
-    //printf("Array before sorting: ");
-    for(int i = 0; i < 100000; i++){
-        int *value;
-        int v = rand();
-        value = v;
-        //printf("%d ", value);
-        insertGA(ga, value);
+    printf("/---------------- Insertion Sort su Int ----------------/\n");
+    int arrSize = 10;
+    int *arrayInt = malloc(arrSize * sizeof(int));
+    printf("Array before sorting:\n");
+    for(int i = 0; i < 10; i++){
+        arrayInt[i] = rand() % 100;
+    }
+     for(int i = 0; i < 10; i++){
+        printf("%d ", arrayInt[i]);
     }
     printf("\n");
-    printf("Array size: %d", ga -> n_el);
+    printf("Array size: %d\n", arrSize);
   /*
     if(argc < 2){
         printf("main: Error, missing arguments\n");
         exit(EXIT_FAILURE);
     } */
     clock_t begin = clock();
-    insertionSort(ga, ga -> n_el, sizeof(int), NULL);
+    insertionSort(arrayInt, arrSize, sizeof(int), compare_int);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\n");
-    /*printf("Array after sorting: ");
+    printf("Array after sorting: \n");
     for(int i = 0; i < 10; i++){
-        int *q = getGA(ga, i);
-        printf("%d ", q);
-    }*/
+        printf("%d ", arrayInt[i]);
+    }
     printf("\n");
-    printf("Time spent ordering the string's array: %fs\n", time_spent);
+    printf("Time spent ordering the int's array: %fs\n", time_spent);
 /*
     begin = clock();
     //sleep(2);
@@ -62,12 +35,40 @@ int main(int argc, char *argv[]){
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("Time spent ordering the integer's array: %f\n", time_spent);
 
+*/
+    printf("\n\n\n");
+     printf("/--------------- Insertion Sort su Float ---------------/\n ");
+
+
+    GenericArray *ga1 = newGenericArray();
+    //printf("Array before sorting: ");
+    srand(time(NULL));
+    float *arrayFloat = malloc(10 * sizeof(float));
+    for(int i = 0; i < 10; i++){
+        arrayFloat[i] = (float)rand() / (float)(RAND_MAX / 100);
+        printf("Valore nell'array: %f\n ", arrayFloat[i]);
+    }
+
+    ga1 -> array = arrayFloat;
+
+    for(int i = 0; i < 10; i++){
+        float *v2 = getGA(ga1, i);
+        printf("Valore nell'array generico: %f\n ", v2);
+    }
+    printf("\n");
+    printf("Array size: %d\n", ga1 -> n_el);
     begin = clock();
-    //sleep(2);
+    insertionSort(ga1, ga1 -> n_el, sizeof(float), compare_int);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent ordering the floats's array: %f\n", time_spent);
-*/
+       printf("Array after sorting: \n");
+    for(int i = 0; i < 10; i++){
+        float *v2 = getGA(ga1, i);
+        printf("%f ", v2);
+    }
+    printf("\n");
+    printf("Time spent ordering the floats's array: %fs\n", time_spent);
+
     return(EXIT_SUCCESS);
 }
 
@@ -141,23 +142,17 @@ static void read_array(const char* fp, GenericArray *ga){
        
 }
 
-int cmp_void(const void *a, const void *b){
-    const int *ia = (const int *)a;
-    const int *ib = (const int *)b;
-    return (*ia > *ib) - (*ia < *ib);
-}
-
-void insertionSort(GenericArray *ga, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
+void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
     int i,j;
-    void *curr_val;
+    void *curr_val = malloc(size);
     for(i = 1; i < nitems; i++){
-        curr_val = getGA(ga,i);
+        memcpy(curr_val, base + (i * size), size);
         j = i-1;
-        while(j >= 0 && getGA(ga,j) > curr_val){
-            updateIndexGA(ga, getGA(ga, j) , j + 1);
+        while(j >= 0 && compar(base + (j * size), curr_val) > 0){
+            memcpy(base + ((j + 1) * size), base + (j * size), size);
             j-=1;
         }
-        updateIndexGA(ga, curr_val, j+1);
+        memcpy(base + ((j + 1) * size), curr_val, size);
     }
 }
 
@@ -175,3 +170,168 @@ void insertionSort(GenericArray *ga, size_t nitems, size_t size, int (*compar)(c
     }
 }
 */
+
+// Function that implements the precedence relation between integers
+static int compare_int(void* r1_p,void* r2_p){
+    if(r1_p == NULL){
+        fprintf(stderr,"compare_int: the first parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
+    }
+    if(r2_p == NULL){
+        fprintf(stderr,"compare_int: the second parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
+    }
+    struct record *rec1_p = (struct record*)r1_p;
+    struct record *rec2_p = (struct record*)r2_p;
+    if(rec1_p->int_f > rec2_p->int_f){
+        return(1);
+    } else if(rec1_p->int_f < rec2_p->int_f){
+        return(-1);
+    }
+    return(0);
+}
+
+// Function that implements the precedence relation between strings
+static int compare_string(void* r1_p,void* r2_p){
+    if(r1_p == NULL){
+        fprintf(stderr,"compare_string: the first parameter cannot be NULL");
+        exit(EXIT_FAILURE);
+    }
+    if(r2_p == NULL){
+        fprintf(stderr,"compare_string: the second parameter cannot be NULL");
+        exit(EXIT_FAILURE);
+    }
+    struct record *rec1_p = (struct record*)r1_p;
+    struct record *rec2_p = (struct record*)r2_p;
+    if (strcasecmp(rec1_p->str_f,rec2_p->str_f) <= 0){
+        return(1);
+    }
+    return(0);
+}
+
+// Function that implements the precedence relation between float
+static int compare_float(void* r1_p, void* r2_p) {
+    if(r1_p == NULL){
+        fprintf(stderr,"compare_float: the first parameter cannot be NULL");
+        exit(EXIT_FAILURE);
+    }
+    if(r2_p == NULL){
+        fprintf(stderr,"compare_float: the second parameter cannot be NULL");
+        exit(EXIT_FAILURE);
+    }
+    struct record *rec1_p = (struct record*)r1_p;
+    struct record *rec2_p = (struct record*)r2_p;
+    if (rec1_p->float_f <= rec2_p->float_f){
+        return(1);
+    }
+    return(0);
+}
+
+
+//Method that create the array
+GenericArray *newGenericArray() {
+    GenericArray *ga = malloc(sizeof(GenericArray));                  // allocate memory for the struct
+    if(ga == NULL){                                                   // check if the allocation was successful
+        return NULL;
+    }
+
+    ga->array = malloc(sizeof(void*) * INITIAL_ARRAY_SIZE);           // allocate memory for the array
+    if(ga->array == NULL){                                            // check if the allocation was successful   
+        free(ga);                                                     // free the memory allocated for the struct    
+        return NULL;
+    }
+
+    for(unsigned long i = 0; i < INITIAL_ARRAY_SIZE; i++){            // initialize the array
+        ga -> array[i] = NULL;
+    }
+
+    ga -> n_el = 0;
+    ga -> length = INITIAL_ARRAY_SIZE;
+    return ga;
+}
+
+//Method that return the size of the array
+size_t sizeArr(void **a) {                              // return the number of elements in the array
+    if(a == NULL){
+        exit(EXIT_FAILURE);
+    }
+
+    return sizeof(a)/sizeof(a[0]);
+}
+
+void *insertGA(void **a, void* new_el){                                // insert a new element in the array
+    if(a == NULL){
+        return NULL;
+    }
+
+    if(new_el == NULL){
+        return NULL;
+    }
+
+    if(sizeArr(a) >= sizeArr(a) - 1){
+        a = realloc(a, sizeof(void*) * (sizeArr(a) * 2));
+        if(a == NULL){
+            return NULL;
+        }
+
+        for(unsigned long i = sizeArr(a); i < sizeArr(a) * 2; i++){
+            a[i] = NULL;
+        }
+    }
+
+    a[sizeArr(a)] = new_el;
+    return (a[sizeArr(a) - 1]);
+}
+
+void* updateIndexGA(void **a, void *new_el, unsigned long index){ // update the element in the array at the given index
+    if(a == NULL){
+        return NULL;
+    }
+
+    if(new_el == NULL){
+        return NULL;
+    }
+
+    if(index < 0 || index >= sizeArr(a) - 1){
+        return NULL;
+    }
+
+    a[index] = new_el;
+    return (a[index]);
+}
+
+void* getGA(void **a, unsigned long index){                     // return the element in the array at the given index
+    if(a == NULL){
+        return NULL;
+    }
+
+    if(index < 0 || index >= sizeArr(a)){
+        return NULL;
+    }
+
+    return (a[index]);
+}
+
+int clearGA(GenericArray *ga){
+    if(ga == NULL){
+        exit(EXIT_FAILURE);
+    }
+
+    for(unsigned long i = 0; i < ga -> n_el; i++){
+        free(ga -> array[i]);
+        ga -> array[i] = NULL;
+    }
+
+    ga -> n_el = 0;
+    return 1;
+}
+
+int destroyGA(GenericArray *ga){
+    if(ga == NULL){
+        exit(EXIT_FAILURE);
+    }
+
+    free(ga -> array);
+    free(ga);
+    return 1;
+}
