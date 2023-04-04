@@ -2,5 +2,5 @@
 *.csv
 
 # Ignore node_modules directory
-node_modules/
+ex1/build/
 
