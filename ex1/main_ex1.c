@@ -163,6 +163,39 @@ void insertionSort(GenericArray *ga, size_t nitems, size_t size, int (*compar)(c
     }
 }
 
+/*void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
+    int i,j;
+    void *curr_val = malloc(size);
+    for(i = 1; i < nitems; i++){
+        memcpy(curr_val, base + (i * size), size);
+        j = i-1;
+        while(j >= 0 && compar(base + (j * size), curr_val) > 0){
+            memcpy(base + ((j + 1) * size), base + (j * size), size);
+            j-=1;
+        }
+        memcpy(base + ((j + 1) * size), curr_val, size);
+    }
+}
+/*static int compare_int(void* r1_p,void* r2_p){
+    if(r1_p == NULL){
+        fprintf(stderr,"compare_int: the first parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
+    }
+    if(r2_p == NULL){
+        fprintf(stderr,"compare_int: the second parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
+    }
+    struct record *rec1_p = (struct record*)r1_p;
+    struct record *rec2_p = (struct record*)r2_p;
+    if(rec1_p->int_f > rec2_p->int_f){
+        return(1);
+    } else if(rec1_p->int_f < rec2_p->int_f){
+        return(-1);
+    }
+    return(0);
+}
+*/
+
 
 void merge(int *base, int left, int mid, int right){
     int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  //nitems = 13: 1 2 3 4 5 6 7 8 9 10 11 12 13
@@ -216,6 +249,16 @@ void mergeSort(int *base, int left, int right){
 
 
 
+/*void mergeSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
+    if(nitems>1){
+        int mid = nitems/2;
+        mergeSort(base, mid, size, compar);
+        mergeSort(base+mid, nitems-mid, size, compar);
+        merge(base, mid, nitems, size, compar);
+    }
+}
+
+*/
 
 
 /*void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
