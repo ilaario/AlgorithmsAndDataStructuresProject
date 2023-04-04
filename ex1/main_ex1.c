@@ -243,20 +243,58 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
     return low;
 }
 
-/*void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
-    int i,j;
-    void *curr_val;
-    for(i=1; i<=nitems; i++){
-        curr_val = base[i];
-        j = i-1;
-        while(j>=0 && getGA(base,j)>curr_val){
-            updateIndexGA(base,j+1,j);
-            j=j-1;
+
+void merge(int *base, int left, int mid, int right){
+    int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  //nitems = 13: 1 2 3 4 5 6 7 8 9 10 11 12 13
+    //creation of temp arrays
+    int Left[div_1], Right[div_2]; 
+
+    for(i=0;i<div_1;i++){
+        Left[i]= base[left+i]; 
+    }
+    for(j=0;j<div_2;j++){
+        Right[j]= base[mid+1+j];
+    }
+
+    i=0;  
+    j=0;
+    k=left;
+
+    while(i<div_1 && j<div_2){
+        if(Left[i]<=Right[j]){
+            base[k]=Left[i];
+            i++;
         }
-        updateIndexGA(base,j+1,curr_val);
+        else {
+            base[k]=Right[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < div_1) {
+        base[k] = Left[i];
+        i++;
+        k++;
+    }
+ 
+    while (j < div_2) {
+        base[k] = Right[j];
+        j++;
+        k++;
     }
 }
-*/
+
+void mergeSort(int *base, int left, int right){
+    if(left<right){
+        int mid = left+(right-left)/2;
+        mergeSort(base,left,mid);
+        mergeSort(base,mid+1,right);
+        merge(base,left,mid,right);
+    }
+}
+
+
 
 // Function that implements the precedence relation between integers
 static int compare_int(const void* r1_p,const void* r2_p){
@@ -279,11 +317,6 @@ static int compare_int(const void* r1_p,const void* r2_p){
 }
 
 
-/* static int testCompareInt(void* p1, void *p2){
-    int *rec1_p = (int*)p1;
-    int *rec2_p = (int*)p2;
-    return *rec1_p - *rec2_p;
-} */
 
 // Function that implements the precedence relation between strings
 static int compare_string(const void* r1_p,const void* r2_p){
@@ -303,13 +336,7 @@ static int compare_string(const void* r1_p,const void* r2_p){
     return(0);
 }
 
-/* static int testCompareString(void* p1, void* p2){
-    char *rec1_p = (char*)p1;
-    puts(*rec1_p);
-    char *rec2_p = (char*)p2;
-    puts(*rec2_p);
-    return strcmp(rec1_p, rec2_p);
-} */
+
 
 // Function that implements the precedence relation between float
 static int compare_float(const void* r1_p, const void* r2_p) {
@@ -328,18 +355,6 @@ static int compare_float(const void* r1_p, const void* r2_p) {
     }
     return(0);
 }
-
-/* static int testCompareFloat(void* p1, void* p2){
-    float *rec1_p = (float*)p1;
-    float *rec2_p = (float*)p2;
-    if (*rec1_p < *rec2_p){
-        return(-1);
-    } else if (*rec1_p > *rec2_p){
-        return(1);
-    } else {
-        return(0);
-    }
-} */
 
 
 //Method that create the array
