@@ -6,19 +6,20 @@ int main(int argc, char *argv[]){
 
     /*
     printf("\n\n\n\n");
-    printf("/---------------- Insertion Sort su Int ----------------/\n");
-   srand(time(NULL));
-    int arrSize = 10;
+    printf("/---------------- Merge Sort su Int ----------------/\n");
+    srand(time(NULL));
+    int arrSize = 20000000;
     int *arrayInt = malloc(arrSize * sizeof(int));
     //printf("Array before sorting:\n");
     for(int i = 0; i < arrSize; i++){
         arrayInt[i] = (int)(rand() % arrSize);
     }
+    /*
     for(int i = 0; i < arrSize; i++){
         printf("%d ", arrayInt[i]);
     }
     printf("\n");
-    printf("Array size: %d\n", arrSize);*/
+    printf("Array size: %d\n", arrSize); */
 
     if(argc < 2){
         printf("main: Error, missing arguments\n");
@@ -27,7 +28,8 @@ int main(int argc, char *argv[]){
 
     /* SORTING SU INTEGERS */
     GenericArray* ga = newGenericArray();
-    memcpy(ga -> array, read_array(argv[1]), sizeof(struct record) * length_array);
+    void **read = read_array(argv[1]);
+    memcpy(ga -> array, read, sizeof(struct record) * length_array);
     printf("Array size: %u\n", length_array);
     ga -> n_el = length_array;
     ga -> length = length_array + 1; 
@@ -40,16 +42,17 @@ int main(int argc, char *argv[]){
         struct record *tmp = (struct record *)(ga -> array + (i * sizeof(struct record)));
         printf("< ");
         printf("%d, ", tmp -> id);
-        printf("%d, ", tmp -> int_f);
         printf("%s, ", tmp -> str_f);
-        printf("%f, ", tmp -> float_f);
+        printf("%d, ", tmp -> int_f);
+        printf("%f ", tmp -> float_f);
         printf(">\n");
     }
     
 
     printf("Sorting the Array...\n");
     clock_t begin = clock();
-    insertionSort(ga -> array, ga -> n_el, sizeof(struct record), compare_int);
+    //insertionSort(arrayInt, arrayInt, sizeof(int), testCompareInt);
+    mergeSort(ga -> array, 0, ga -> n_el - 1, sizeof(int), compare_int);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
@@ -58,9 +61,9 @@ int main(int argc, char *argv[]){
     for(int i = 0; i < arrSize; i++){
         printf("%d ", arrayInt[i]);
     }
-    printf("\n");
-    */
-    print_array(ga);
+    printf("\n");*/
+    
+    //print_array(ga);
     if(time_spent > 60){
         int min = time_spent / 60;
         int sec = time_spent - (min * 60);
@@ -68,9 +71,9 @@ int main(int argc, char *argv[]){
     } else {
         printf("Time spent ordering the int's array: %fs\n", time_spent);
     }
-    destroyGA(ga);
+    //destroyGA(ga);
 
-    /* SORTING SU FLOAT */
+    /* SORTING SU FLOAT
     GenericArray *ga2 = newGenericArray();
     memcpy(ga2 -> array, read_array(argv[1]), sizeof(struct record) * length_array);
 
@@ -90,7 +93,7 @@ int main(int argc, char *argv[]){
     }
     destroyGA(ga2);
 
-    /* SORTING SU STRING */
+    /* SORTING SU STRING 
     GenericArray *ga3 = newGenericArray();
     memcpy(ga3 -> array, read_array(argv[1]), sizeof(struct record) * length_array);
 
@@ -106,7 +109,7 @@ int main(int argc, char *argv[]){
         printf("%s ", arrayString[i]);
     }
     printf("\n");
-    */
+    
     print_array(ga3);
     if(time_spent > 60){
         int min = time_spent / 60;
@@ -115,38 +118,14 @@ int main(int argc, char *argv[]){
     } else {
         printf("Time spent ordering the int's array: %fs\n", time_spent);
     }
-
+    */
     return(EXIT_SUCCESS);
 }
 
 void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*)){
-    // divisione dell'array in due parti tramite merge sort, fino a quando lunghezza array <= k
-    // si inizia a ordinare il nuovo array
-    // se la lunghezza dell'array è maggiore di k, allora si applica merge sort
-    // altrimenti si applica insertion sort
 
-
-
-
-    if(nitems > k){
-        printf("Merge sort\n");
-        
-        
-    }
-    else{
-        printf("Insertion sort\n");
-        //insertionSort(base, nitems, size, compar);
-    }
 }
 
-
-
-
-int cmp_void(const void *a, const void *b){
-    const int *ia = (const int *)a;
-    const int *ib = (const int *)b;
-    return (*ia > *ib) - (*ia < *ib);
-}
 
 
 void** read_array(const char* file_path){
@@ -244,53 +223,55 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
 }
 
 
-void merge(int *base, int left, int mid, int right){
+void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*)){
     int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  //nitems = 13: 1 2 3 4 5 6 7 8 9 10 11 12 13
     //creation of temp arrays
-    int Left[div_1], Right[div_2]; 
+    void *left_arr = malloc(div_1 * size);
+    void *right_arr = malloc(div_2 * size);
+    
 
     for(i=0;i<div_1;i++){
-        Left[i]= base[left+i]; 
+        memcpy(left_arr + (i * size), base + ((left + i) * size), size);
     }
     for(j=0;j<div_2;j++){
-        Right[j]= base[mid+1+j];
+        memcpy(right_arr + (j * size), base + ((mid + 1 + j) * size), size);
     }
 
-    i=0;  
-    j=0;
-    k=left;
+    i = 0;  
+    j = 0;
+    k = left;
 
-    while(i<div_1 && j<div_2){
-        if(Left[i]<=Right[j]){
-            base[k]=Left[i];
+    while(i < div_1 && j < div_2){
+        if(compar(left_arr + (i * size), right_arr + (j * size)) <= 0){
+            memcpy(base + (k * size), left_arr + (i * size), size);
             i++;
         }
-        else {
-            base[k]=Right[j];
+        else{
+            memcpy(base + (k * size), right_arr + (j * size), size);
             j++;
         }
         k++;
     }
 
     while (i < div_1) {
-        base[k] = Left[i];
+        memcpy(base + (k * size), left_arr + (i * size), size);
         i++;
         k++;
     }
  
     while (j < div_2) {
-        base[k] = Right[j];
+        memcpy(base + (k * size), right_arr + (j * size), size);
         j++;
         k++;
     }
 }
 
-void mergeSort(int *base, int left, int right){
-    if(left<right){
-        int mid = left+(right-left)/2;
-        mergeSort(base,left,mid);
-        mergeSort(base,mid+1,right);
-        merge(base,left,mid,right);
+void mergeSort(void *base, int left, int right, size_t size, int (*compar)(const void *, const void*)){
+    if(left < right){
+        int mid = left + (right - left) / 2;
+        mergeSort(base, left, mid, size, compar);
+        mergeSort(base, mid + 1, right, size, compar);
+        merge(base, left, mid, right, size, compar);
     }
 }
 
@@ -316,7 +297,11 @@ static int compare_int(const void* r1_p,const void* r2_p){
     return(0);
 }
 
-
+static int testCompareInt(const void *r1, const void *r2){
+    int *a = (int*) r1;
+    int *b = (int*) r2;
+    return *a - *b;
+}
 
 // Function that implements the precedence relation between strings
 static int compare_string(const void* r1_p,const void* r2_p){
@@ -375,11 +360,11 @@ GenericArray *newGenericArray() {
         printf("Array allocato con successo!\n");
     }
 
-    for(unsigned long i = 0; i < INITIAL_ARRAY_SIZE; i++){            // initialize the array
+    /*for(unsigned long i = 0; i < INITIAL_ARRAY_SIZE; i++){            // initialize the array
         printf("Assegnamento valore NULL all'indice %lu...\n", i);
         void *tmp = NULL;
-        memcpy(ga -> array + (i * sizeof(void*)), tmp, sizeof(void*));
-    }
+        memcpy(ga -> array + (i * sizeof(void*)), NULL, sizeof(void*));
+    }*/
 
     ga -> n_el = 0;
     ga -> length = INITIAL_ARRAY_SIZE;

@@ -29,10 +29,13 @@ void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t 
 void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*));
 static int binary_search(void *base, size_t size, int (*compar)(const void *, const void*), int val_pos);
 
+void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*));
+void mergeSort(void *base, int left, int right, size_t size, int (*compar)(const void *, const void*));
+
 void** read_array(const char* fp);
 
 static int compare_int(const void* r1_p,const void* r2_p);
-static int testCompareInt(void *p1, void *p2);
+static int testCompareInt(const void *r1, const void *r2);
 
 static int compare_string(const void* r1_p,const void* r2_p);
 static int testCompareString(void *p1, void *p2);
