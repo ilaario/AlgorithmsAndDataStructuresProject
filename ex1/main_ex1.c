@@ -3,20 +3,20 @@
 unsigned int length_array;
 
 int main(int argc, char *argv[]){
-    if(argc < 2){
+    if(argc < 3){
         printf("main: Error, missing arguments\n");
         exit(EXIT_FAILURE);
     }
 
     /* SORTING SU INTEGERS */
+    int k = atoi(argv[3]);
     printf("\nMerge Sort su Integers\n");
     struct record *read_int = read_array(argv[1]);
     printf("Array before sorting:\n");
     printf("Array size: %u\n", length_array);
     printf("Sorting the Array...\n");
     clock_t begin = clock();
-    //insertionSort(read_int, length_array, sizeof(struct record), compare_int);
-    mergeSort(read_int, 0, length_array - 1, sizeof(struct record), compare_int);
+    merge_binary_insertion_sort(read_int, length_array, sizeof(struct record), 100, compare_int);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     if(time_spent > 60){
@@ -35,8 +35,7 @@ int main(int argc, char *argv[]){
     printf("Array size: %u\n", length_array);
     printf("Sorting the Array...\n");
     begin = clock();
-    //insertionSort(read_float, length_array, sizeof(struct record), compare_int);
-    mergeSort(read_float, 0, length_array - 1, sizeof(struct record), compare_float);
+    merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), 100, compare_int);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     if(time_spent > 60){
@@ -55,8 +54,7 @@ int main(int argc, char *argv[]){
     printf("Array size: %u\n", length_array);
     printf("Sorting the Array...\n");
     begin = clock();
-    //insertionSort(read_string, lenght_array, sizeof(struct record), compare_string);
-    mergeSort(read_string, 0, length_array - 1, sizeof(struct record), compare_string);
+    merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), 100, compare_int);
     end = clock();
     time_spent = ((double)(end - begin)) / CLOCKS_PER_SEC;
     if(time_spent > 60){
@@ -72,7 +70,8 @@ int main(int argc, char *argv[]){
 }
 
 void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*)){
-
+    mergeSort(base, 0, nitems - 1, k, size, compar);
+    return;
 }
 
 
@@ -151,7 +150,6 @@ struct record* read_array(const char* file_path){
 void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
     int i,j;
     char *curr_val = malloc(size);
-    printf("Insertion sort\n");
     for(i = 0; i < nitems; i++){
         j = i;
         memcpy(curr_val, base + (i * size), size);
@@ -230,11 +228,14 @@ void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(
     free(right_arr);
 }
 
-void mergeSort(void *base, int left, int right, size_t size, int (*compar)(const void *, const void*)){
-    if(left < right){
+void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar)(const void *, const void*)){
+    if((right - left) <= k){
+        insertionSort(base + (left * size), right - left + 1, size, compar);
+        return;
+    } else if(left < right){
         int mid = left + (right - left) / 2;
-        mergeSort(base, left, mid, size, compar);
-        mergeSort(base, mid + 1, right, size, compar);
+        mergeSort(base, left, mid, k, size, compar);
+        mergeSort(base, mid + 1, right, k, size, compar);
         merge(base, left, mid, right, size, compar);
     }
 }

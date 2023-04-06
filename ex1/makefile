@@ -4,7 +4,7 @@ GFLAGS = -o3 -Wall -Wextra -Werror -Wpedantic -std=c99
 run:
 	mkdir -p build
 	$(CC) main_ex1.c -o build/main_ex1.out
-	./build/main_ex1.out records.csv NULL
+	./build/main_ex1.out records.csv NULL 90
 
 valgrind:
 	mkdir -p build
