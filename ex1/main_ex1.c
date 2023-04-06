@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     } else {
         printf("Time spent ordering the int's array: %fs\n", time_spent);
     }
-    free(read_int);
+    destroy_Rarr(read_int);
 
     /* SORTING SU FLOAT */
     printf("\n\nMerge Sort su Floats\n");
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
     } else {
         printf("Time spent ordering the float's array: %fs\n", time_spent);
     }
-    free(read_float);
+    destroy_Rarr(read_float);
 
     /* SORTING SU STRING */
     printf("\n\nMerge Sort su String\n");
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
     } else {
         printf("Time spent ordering the string's array: %fs\n", time_spent);
     }
-    free(read_string);
+    destroy_Rarr(read_string);
 
     return(EXIT_SUCCESS);
 }
@@ -295,120 +295,16 @@ static int compare_float(const void* r1_p, const void* r2_p) {
     return(0);
 }
 
-
-//Method that create the array
-GenericArray *newGenericArray() {
-    printf("Generazione Generic Array...\n");
-    GenericArray *ga = (GenericArray *)malloc(sizeof(GenericArray));                  // allocate memory for the struct
-    if(ga == NULL){                                                   // check if the allocation was successful
-        return NULL;
-    } else {
-        printf("Generic Array allocato con successo!\n");
-    }
-
-    ga->array = (void*)malloc(sizeof(void*) * INITIAL_ARRAY_SIZE);           // allocate memory for the array
-    if(ga->array == NULL){                                            // check if the allocation was successful   
-        free(ga);                                                     // free the memory allocated for the struct    
-        return NULL;
-    } else {
-        printf("Array allocato con successo!\n");
-    }
-
-    /*for(unsigned long i = 0; i < INITIAL_ARRAY_SIZE; i++){            // initialize the array
-        printf("Assegnamento valore NULL all'indice %lu...\n", i);
-        void *tmp = NULL;
-        memcpy(ga -> array + (i * sizeof(void*)), NULL, sizeof(void*));
-    }*/
-
-    ga -> n_el = 0;
-    ga -> length = INITIAL_ARRAY_SIZE;
-    return ga;
-}
-
-//Method that return the size of the array
-size_t sizeArr(void **a) {                              // return the number of elements in the array
-    if(a == NULL){
-        exit(EXIT_FAILURE);
-    }
-
-    return sizeof(a)/sizeof(a[0]);
-}
-
-void *insertGA(GenericArray *ga, void* new_el){                                // insert a new element in the array
-    if(ga == NULL){
-        return NULL;
-    }
-
-    if(new_el == NULL){
-        return NULL;
-    }
-
-    if( ga -> n_el + 1 >= ga -> length){                                       // if the array is full, double its size
-        ga -> array = realloc(ga -> array, sizeof(void*) * (sizeArr(ga -> array) * 2));
-        if(ga -> array == NULL){
-            return NULL;
-        }
-
-        for(unsigned long i = sizeArr(ga -> array); i < sizeArr(ga -> array) * 2; i++){
-            memcpy(ga -> array + (i * sizeof(void*)), NULL, sizeof(void*));
-        }
-
-        ga -> length = sizeArr(ga -> array) * 2;
-    }
-
-    memcpy(ga -> array + (sizeArr(ga -> array) * sizeof(void*)), new_el, sizeof(void*));
-    return (ga -> array + (sizeArr(ga -> array) * sizeof(void*)));
-}
-
-void* updateIndexGA(void **a, void *new_el, unsigned long index){ // update the element in the array at the given index
-    if(a == NULL){
-        return NULL;
-    }
-
-    if(new_el == NULL){
-        return NULL;
-    }
-
-    if(index < 0 || index >= sizeArr(a) - 1){
-        return NULL;
-    }
-
-    a[index] = new_el;
-    return (a[index]);
-}
-
-void* getGA(void **a, unsigned long index){                     // return the element in the array at the given index
-    if(a == NULL){
-        return NULL;
-    }
-
-    if(index < 0 || index >= sizeArr(a)){
-        return NULL;
-    }
-
-    return (a[index]);
-}
-
-int clearGA(GenericArray *ga){
+int destroy_Rarr(struct record *ga){
     if(ga == NULL){
         exit(EXIT_FAILURE);
     }
 
-    for(unsigned long i = 0; i < ga -> n_el; i++){
-        free(ga -> array + (i * sizeof(void*)));
-        memcpy(ga -> array + (i * sizeof(void*)), NULL, sizeof(void*));
+    for (size_t i = 0; i < length_array; i++){
+        free((ga + (i * sizeof(struct record)))->str_f);
+        free(ga + (i * sizeof(struct record)));
     }
-
-    ga -> n_el = 0;
-    return 1;
-}
-
-int destroyGA(GenericArray *ga){
-    if(ga == NULL){
-        exit(EXIT_FAILURE);
-    }
-
-    free(ga -> array);
+    
     free(ga);
     return 1;
 }

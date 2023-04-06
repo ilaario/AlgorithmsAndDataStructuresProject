@@ -42,14 +42,7 @@ static int testCompareString(void *p1, void *p2);
 static int compare_float(const void* r1_p,const void* r2_p);
 static int testCompareFloat(void *p1, void *p2);
 
-//typedef struct _GenericArray GenericArray;
-GenericArray* newGenericArray();
-size_t sizeArr(void **a); //return the number of elements in the array
-void* insertGA(GenericArray *ga, void* new_el); //insert a new element in the array
-void* updateIndexGA(void **a, void* new_el, unsigned long index); //update the element in the array at the given index
-void* getGA(void **a, unsigned long index); //return the element in the array at the given index
-int clearGA(GenericArray* ga); //reset all the array's elements to 0
-int destroyGA(GenericArray* ga); //remove the array
+int destroy_Rarr(struct record* ga); //remove the array
 
 static void print_array(void *a);
 
