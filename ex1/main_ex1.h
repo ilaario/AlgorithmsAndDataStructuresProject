@@ -31,7 +31,7 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
 void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*));
 void mergeSort(void *base, int left, int right, size_t size, int (*compar)(const void *, const void*));
 
-void* read_array(const char* file_path);
+struct record* read_array(const char* file_path);
 
 static int compare_int(const void* r1_p,const void* r2_p);
 static int testCompareInt(const void *r1, const void *r2);

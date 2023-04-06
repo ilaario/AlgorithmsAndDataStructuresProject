@@ -1,6 +1,7 @@
 # Ignore log files
 *.csv
 *.out
+*.log
 
 # Ignore node_modules directory
 ex1/build/

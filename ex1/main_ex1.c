@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 
     /* SORTING SU INTEGERS */
     printf("\nMerge Sort su Integers\n");
-    void *read_int = read_array(argv[1]);
+    struct record *read_int = read_array(argv[1]);
     printf("Array before sorting:\n");
     printf("Array size: %u\n", length_array);
     printf("Sorting the Array...\n");
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
 
     /* SORTING SU FLOAT */
     printf("\n\nMerge Sort su Floats\n");
-    void *read_float = read_array(argv[1]);
+    struct record *read_float = read_array(argv[1]);
     printf("Array before sorting:\n");
     printf("Array size: %u\n", length_array);
     printf("Sorting the Array...\n");
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 
     /* SORTING SU STRING */
     printf("\n\nMerge Sort su String\n");
-    void *read_string = read_array(argv[1]);
+    struct record *read_string = read_array(argv[1]);
     printf("Array before sorting:\n");
     printf("Array size: %u\n", length_array);
     printf("Sorting the Array...\n");
@@ -77,13 +77,12 @@ void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t 
 
 
 
-void* read_array(const char* file_path){
+struct record* read_array(const char* file_path){
     clock_t begin_read = clock();
-    struct record *this_record = malloc(sizeof(struct record));
     unsigned int i = 0;
     char *read_line_p, *string_tmp, buffer[1024];
     int buff_size = 1024;
-    void *array_to_sort;
+    struct record *array_to_sort;
     FILE *fp;
     length_array = 1000;
 
@@ -101,42 +100,47 @@ void* read_array(const char* file_path){
             length_array *= 2;
             array_to_sort = realloc(array_to_sort, length_array * sizeof(struct record));
         }
-
+/*
+        struct record *this_record = malloc(sizeof(struct record));
+        if (this_record == NULL){
+            fprintf(stderr, "main: Error allocating memory\n");
+            exit(EXIT_FAILURE);
+        }
+*/        
         read_line_p = malloc((strlen(buffer) + 1) * sizeof(char));
         if(read_line_p == NULL){
             fprintf(stderr, "main: Error allocating memory\n");
             exit(EXIT_FAILURE);
         }
         strcpy(read_line_p, buffer);
-        if(this_record == NULL){
-            fprintf(stderr, "main: Error allocating memory\n");
-            exit(EXIT_FAILURE);
-        }
+        
             //printf("read_line_p:\n");
-        this_record -> id = atoi(strtok(read_line_p, ","));
+        array_to_sort[i].id = atoi(strtok(read_line_p, ","));
             //printf("\tread_line_p -> id: %d\n", this_record -> id);
+        //string_tmp = malloc(buff_size * sizeof(char));
         string_tmp = strtok(NULL, ",");
-        this_record -> str_f = malloc((strlen(string_tmp) + 1) * sizeof(char));
-        strcpy(this_record -> str_f, string_tmp);
+        char* str = malloc((strlen(string_tmp) + 1) * sizeof(char));
+        strcpy(str, string_tmp);
+        array_to_sort[i].str_f = str;
             //printf("\tread_line_p -> str_f: %s\n", this_record -> str_f);
-        this_record -> int_f = atoi(strtok(NULL, ","));
+        array_to_sort[i].int_f = atoi(strtok(NULL, ","));
             //printf("\tread_line_p -> int_f: %d\n", this_record -> int_f);
-        this_record -> float_f = atof(strtok(NULL, ","));
+        array_to_sort[i].float_f = atof(strtok(NULL, ","));
             //printf("\tread_line_p -> float_f: %f\n\n", this_record -> float_f);
-
+/*
         if(this_record -> str_f == NULL){
             fprintf(stderr, "main: Error allocating memory\n");
             exit(EXIT_FAILURE);
         }
-        
-        memcpy(array_to_sort + (i * sizeof(struct record)), this_record, sizeof(struct record));
+*/        
+        //memcpy(array_to_sort + (i * sizeof(struct record)), this_record, sizeof(struct record));
         //struct record *tmp = malloc(sizeof(struct record));
         //memcpy(tmp, array_to_sort + (i * sizeof(struct record)), sizeof(struct record));
         //printf("Record %d read\n < %d, %s, %d, %f >\n\n", i, tmp -> id, tmp -> str_f, tmp -> int_f, tmp -> float_f);
         i++;
+        free(read_line_p);
     }
     fclose(fp);
-    free(this_record);
     length_array = (unsigned int) i;
     clock_t end_read = clock();
     double time_spent_read = (double)(end_read - begin_read) / CLOCKS_PER_SEC;
@@ -221,6 +225,9 @@ void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(
         j++;
         k++;
     }
+
+    free(left_arr);
+    free(right_arr);
 }
 
 void mergeSort(void *base, int left, int right, size_t size, int (*compar)(const void *, const void*)){
@@ -301,8 +308,7 @@ int destroy_Rarr(struct record *ga){
     }
 
     for (size_t i = 0; i < length_array; i++){
-        free((ga + (i * sizeof(struct record)))->str_f);
-        free(ga + (i * sizeof(struct record)));
+        free(ga[i].str_f);
     }
     
     free(ga);
@@ -316,4 +322,5 @@ void print_array(void *a){
         memcpy(array_element, a + (i * sizeof(struct record)), sizeof(struct record));
         printf("<%d, %s, %d, %lf>\n", array_element->id, array_element->str_f, array_element->int_f, array_element->float_f);
     }
+    //free(array_element);
 }
