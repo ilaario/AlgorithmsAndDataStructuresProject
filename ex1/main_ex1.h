@@ -10,7 +10,7 @@
 
 #ifndef INITIAL_ARRAY_SIZE
 #define INITIAL_ARRAY_SIZE 10
-#define STOP_COUNT 100
+#define STOP_COUNT 200
 
 struct record {
     int id;
@@ -18,7 +18,6 @@ struct record {
     int int_f;
     double float_f;
 };
-
 typedef struct _GenericArray {
     void *array;
     size_t n_el;
@@ -32,7 +31,7 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
 void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*));
 void mergeSort(void *base, int left, int right, size_t size, int (*compar)(const void *, const void*));
 
-void** read_array(const char* fp);
+void* read_array(const char* file_path);
 
 static int compare_int(const void* r1_p,const void* r2_p);
 static int testCompareInt(const void *r1, const void *r2);
@@ -52,6 +51,6 @@ void* getGA(void **a, unsigned long index); //return the element in the array at
 int clearGA(GenericArray* ga); //reset all the array's elements to 0
 int destroyGA(GenericArray* ga); //remove the array
 
-static void print_array(GenericArray *ga);
+static void print_array(void *a);
 
 #endif
