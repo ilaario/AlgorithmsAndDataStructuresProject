@@ -1,5 +1,5 @@
 CC = gcc
-GFLAGS = -o0 -Wall -Wextra -Werror -Wpedantic
+GFLAGS = -o3 -Wall -Wpedantic
 
 run_string:
 	mkdir -p build
@@ -37,6 +37,6 @@ run_test:
 	./build/test_ex1.out records.csv perfStr.csv perfInt.csv perfFloat.csv test
 
 run_gflags:
-	$(CC) $(GFLAGS) main_ex1.c -o build/main_ex1
-	./build/main_ex1 records.csv NULL
+	$(CC) $(GFLAGS) main_ex1.c ex1_test.c -o build/main_ex1
+	./build/main_ex1 records.csv sorted.csv 25 2 run
 

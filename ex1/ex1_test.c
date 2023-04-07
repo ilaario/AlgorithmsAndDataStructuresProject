@@ -74,14 +74,3 @@ void testPerf(const char *input, const char *output_string, const char *output_i
     printf("Done testing!\n");
     destroy_Rarr(a);
 }
-
-void printResult(int type, int i, const char *output, double time_spent){
-    FILE *fp = fopen(output, "w");
-    if(fp == NULL){
-        printf("Error opening file");
-        exit(1);
-    }
-    fprintf(fp, "Type \t K \t Time \n");
-    fprintf(fp, "%d \t %d \t %f\n", type, i, time_spent);
-    fclose(fp);
-}

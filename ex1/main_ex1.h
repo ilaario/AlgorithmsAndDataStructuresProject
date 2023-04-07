@@ -33,13 +33,8 @@ void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar
 struct record* read_array(const char* file_path);
 
 int compare_int(const void* r1_p,const void* r2_p);
-static int testCompareInt(const void *r1, const void *r2);
-
 int compare_string(const void* r1_p,const void* r2_p);
-static int testCompareString(void *p1, void *p2);
-
 int compare_float(const void* r1_p,const void* r2_p);
-static int testCompareFloat(void *p1, void *p2);
 
 int destroy_Rarr(struct record* ga); //remove the array
 

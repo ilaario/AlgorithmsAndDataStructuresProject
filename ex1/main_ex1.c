@@ -246,12 +246,6 @@ int compare_int(const void* r1_p,const void* r2_p){
     return(0);
 }
 
-static int testCompareInt(const void *r1, const void *r2){
-    int *a = (int*) r1;
-    int *b = (int*) r2;
-    return *a - *b;
-}
-
 // Function that implements the precedence relation between strings
 int compare_string(const void* r1_p,const void* r2_p){
     if(r1_p == NULL){
