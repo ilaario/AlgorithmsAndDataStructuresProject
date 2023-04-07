@@ -1,5 +1,5 @@
 CC = gcc
-GFLAGS = -o3 -Wall -Wpedantic
+GFLAGS = -o3 -Wall -Wpedantic -std=c99
 
 run_string:
 	mkdir -p build
