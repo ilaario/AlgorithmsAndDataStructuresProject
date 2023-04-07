@@ -1,5 +1,5 @@
 CC = gcc
-GFLAGS = -o3 -Wall -Wpedantic -std=c99
+GFLAGS = -Ofast -Wall -Wpedantic
 
 run_string:
 	mkdir -p build
@@ -41,9 +41,17 @@ valgrind_test:
 	$(CC) main_ex1.c -o build/test_ex1.out 
 	valgrind --leak-check=full -s --show-leak-kinds=all --track-origins=yes --log-file=valgrind.log ./build/test_ex1.out records.csv perfStr.csv perfInt.csv perfFloat.csv test
 
-run_gflags:
+run_gflagsInt:
 	$(CC) $(GFLAGS) main_ex1.c -o build/main_ex1
 	./build/main_ex1 records.csv sorted.csv 25 2 run
+
+run_gflagsString:
+	$(CC) $(GFLAGS) main_ex1.c -o build/main_ex1
+	./build/main_ex1 records.csv sorted.csv 25 1 run
+
+run_gflagsFloat:
+	$(CC) $(GFLAGS) main_ex1.c -o build/main_ex1
+	./build/main_ex1 records.csv sorted.csv 25 3 run
 
 clear:
 	rm -rf build
