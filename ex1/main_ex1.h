@@ -12,8 +12,6 @@
 #define INITIAL_ARRAY_SIZE 10
 #define STOP_COUNT 20000000
 
-#include "ex1_test.h"
-
 struct record {
     int id;
     char* str_f;
@@ -39,5 +37,7 @@ int compare_float(const void* r1_p,const void* r2_p);
 int destroy_Rarr(struct record* ga); //remove the array
 
 static void print_array(struct record *a, const char* file_path);
+
+void testPerf(const char *input, const char *output_string, const char *output_int, const char *output_float);
 
 #endif
