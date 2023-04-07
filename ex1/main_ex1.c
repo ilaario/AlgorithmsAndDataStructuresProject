@@ -3,69 +3,77 @@
 unsigned int length_array;
 
 int main(int argc, char *argv[]){
-    if(argc < 3){
+    if(argc < 4){
         printf("main: Error, missing arguments\n");
         exit(EXIT_FAILURE);
     }
 
     /* SORTING SU INTEGERS */
     int k = atoi(argv[3]);
-    printf("\nMerge Sort su Integers\n");
-    struct record *read_int = read_array(argv[1]);
-    printf("Array before sorting:\n");
-    printf("Array size: %u\n", length_array);
-    printf("Sorting the Array...\n");
-    clock_t begin = clock();
-    merge_binary_insertion_sort(read_int, length_array, sizeof(struct record), 100, compare_int);
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    if(time_spent > 60){
-        int min = time_spent / 60;
-        int sec = time_spent - (min * 60);
-        printf("Time spent ordering the int's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
-    } else {
-        printf("Time spent ordering the int's array: %fs\n", time_spent);
-    }
-    destroy_Rarr(read_int);
+    int type = atoi(argv[4]);
 
-    /* SORTING SU FLOAT */
-    printf("\n\nMerge Sort su Floats\n");
-    struct record *read_float = read_array(argv[1]);
-    printf("Array before sorting:\n");
-    printf("Array size: %u\n", length_array);
-    printf("Sorting the Array...\n");
-    begin = clock();
-    merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), 100, compare_int);
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    if(time_spent > 60){
-        int min = time_spent / 60;
-        int sec = time_spent - (min * 60);
-        printf("Time spent ordering the float's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+    if(type == 2){
+        printf("\nMerge Binary Insertion Sort su Integers\n");
+        struct record *read_int = read_array(argv[1]);
+        printf("Array before sorting:\n");
+        printf("Array size: %u\n", length_array);
+        printf("Sorting the Array...\n");
+        clock_t begin = clock();
+        merge_binary_insertion_sort(read_int, length_array, sizeof(struct record), 100, compare_int);
+        clock_t end = clock();
+        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        if(time_spent > 60){
+            int min = time_spent / 60;
+            int sec = time_spent - (min * 60);
+            printf("Time spent ordering the int's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+        } else {
+            printf("Time spent ordering the int's array: %fs\n", time_spent);
+        }
+        print_array(read_int, argv[2]);
+        destroy_Rarr(read_int);
+    } else if (type == 3){
+            /* SORTING SU FLOAT */
+        printf("\n\nMerge Binary Insertion Sort su Floats\n");
+        struct record *read_float = read_array(argv[1]);
+        printf("Array before sorting:\n");
+        printf("Array size: %u\n", length_array);
+        printf("Sorting the Array...\n");
+        clock_t begin = clock();
+        merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), 100, compare_int);
+        clock_t end = clock();
+        clock_t time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        if(time_spent > 60){
+            int min = time_spent / 60;
+            int sec = time_spent - (min * 60);
+            printf("Time spent ordering the float's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+        } else {
+            printf("Time spent ordering the float's array: %fs\n", time_spent);
+        }
+        print_array(read_float, argv[2]);
+        destroy_Rarr(read_float);
+    } else if(type == 1) {
+        printf("\n\nMerge Binary Insertion Sort su String\n");
+        struct record *read_string = read_array(argv[1]);
+        printf("Array before sorting:\n");
+        printf("Array size: %u\n", length_array);
+        printf("Sorting the Array...\n");
+        clock_t begin = clock();
+        merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), 100, compare_int);
+        clock_t end = clock();
+        clock_t time_spent = ((double)(end - begin)) / CLOCKS_PER_SEC;
+        if(time_spent > 60){
+            int min = time_spent / 60;
+            int sec = time_spent - (min * 60);
+            printf("Time spent ordering the string's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+        } else {
+            printf("Time spent ordering the string's array: %fs\n", time_spent);
+        }
+        print_array(read_string, argv[2]);
+        destroy_Rarr(read_string);
     } else {
-        printf("Time spent ordering the float's array: %fs\n", time_spent);
+        printf("main: Error, wrong argument\n");
+        exit(EXIT_FAILURE);
     }
-    destroy_Rarr(read_float);
-
-    /* SORTING SU STRING */
-    printf("\n\nMerge Sort su String\n");
-    struct record *read_string = read_array(argv[1]);
-    printf("Array before sorting:\n");
-    printf("Array size: %u\n", length_array);
-    printf("Sorting the Array...\n");
-    begin = clock();
-    merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), 100, compare_int);
-    end = clock();
-    time_spent = ((double)(end - begin)) / CLOCKS_PER_SEC;
-    if(time_spent > 60){
-        int min = time_spent / 60;
-        int sec = time_spent - (min * 60);
-        printf("Time spent ordering the string's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
-    } else {
-        printf("Time spent ordering the string's array: %fs\n", time_spent);
-    }
-    destroy_Rarr(read_string);
-
     return(EXIT_SUCCESS);
 }
 
@@ -99,43 +107,19 @@ struct record* read_array(const char* file_path){
             length_array *= 2;
             array_to_sort = realloc(array_to_sort, length_array * sizeof(struct record));
         }
-/*
-        struct record *this_record = malloc(sizeof(struct record));
-        if (this_record == NULL){
-            fprintf(stderr, "main: Error allocating memory\n");
-            exit(EXIT_FAILURE);
-        }
-*/        
         read_line_p = malloc((strlen(buffer) + 1) * sizeof(char));
         if(read_line_p == NULL){
             fprintf(stderr, "main: Error allocating memory\n");
             exit(EXIT_FAILURE);
         }
         strcpy(read_line_p, buffer);
-        
-            //printf("read_line_p:\n");
         array_to_sort[i].id = atoi(strtok(read_line_p, ","));
-            //printf("\tread_line_p -> id: %d\n", this_record -> id);
-        //string_tmp = malloc(buff_size * sizeof(char));
         string_tmp = strtok(NULL, ",");
         char* str = malloc((strlen(string_tmp) + 1) * sizeof(char));
         strcpy(str, string_tmp);
         array_to_sort[i].str_f = str;
-            //printf("\tread_line_p -> str_f: %s\n", this_record -> str_f);
         array_to_sort[i].int_f = atoi(strtok(NULL, ","));
-            //printf("\tread_line_p -> int_f: %d\n", this_record -> int_f);
         array_to_sort[i].float_f = atof(strtok(NULL, ","));
-            //printf("\tread_line_p -> float_f: %f\n\n", this_record -> float_f);
-/*
-        if(this_record -> str_f == NULL){
-            fprintf(stderr, "main: Error allocating memory\n");
-            exit(EXIT_FAILURE);
-        }
-*/        
-        //memcpy(array_to_sort + (i * sizeof(struct record)), this_record, sizeof(struct record));
-        //struct record *tmp = malloc(sizeof(struct record));
-        //memcpy(tmp, array_to_sort + (i * sizeof(struct record)), sizeof(struct record));
-        //printf("Record %d read\n < %d, %s, %d, %f >\n\n", i, tmp -> id, tmp -> str_f, tmp -> int_f, tmp -> float_f);
         i++;
         free(read_line_p);
     }
@@ -300,7 +284,7 @@ static int compare_float(const void* r1_p, const void* r2_p) {
     if (rec1_p->float_f <= rec2_p->float_f){
         return(1);
     }
-    return(0);
+    return(-1);
 }
 
 int destroy_Rarr(struct record *ga){
@@ -316,12 +300,20 @@ int destroy_Rarr(struct record *ga){
     return 1;
 }
 
-void print_array(void *a){
-    int el_num = length_array;
-    struct record *array_element = (struct record*)malloc(sizeof(struct record));
-    for(int i = 0;i < length_array;i++){
-        memcpy(array_element, a + (i * sizeof(struct record)), sizeof(struct record));
-        printf("<%d, %s, %d, %lf>\n", array_element->id, array_element->str_f, array_element->int_f, array_element->float_f);
+void print_array(struct record *a, const char* file_path){
+    printf("Printing array to file %s, please wait...\n", file_path);
+    clock_t start = clock();
+    FILE *fp = fopen(file_path, "w");
+    if(fp == NULL){
+        fprintf(stderr, "Error opening file");
+        exit(EXIT_FAILURE);
     }
-    //free(array_element);
+    fprintf(fp, "id, str_f, int_f, float_f\n");
+    for(int i=0;i<length_array;i++){
+        fprintf(fp, "%d, %s, %d, %f\n", a[i].id, a[i].str_f, a[i].int_f, a[i].float_f);
+    }
+    fclose(fp);
+    clock_t end = clock();
+    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("Done in %fs!\n", time_spent);
 }

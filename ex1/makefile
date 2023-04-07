@@ -1,10 +1,20 @@
 CC = gcc
-GFLAGS = -o3 -Wall -Wextra -Werror -Wpedantic -std=c99
+GFLAGS = -o0 -Wall -Wextra -Werror -Wpedantic
 
-run:
+run_string:
 	mkdir -p build
 	$(CC) main_ex1.c -o build/main_ex1.out
-	./build/main_ex1.out records.csv NULL 90
+	./build/main_ex1.out records.csv sorted.csv 90 1
+
+run_int:
+	mkdir -p build
+	$(CC) main_ex1.c -o build/main_ex1.out
+	./build/main_ex1.out records.csv sorted.csv 90 2
+
+run_float:
+	mkdir -p build
+	$(CC) main_ex1.c -o build/main_ex1.out
+	./build/main_ex1.out records.csv sorted.csv 90 3
 
 valgrind:
 	mkdir -p build

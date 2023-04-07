@@ -44,6 +44,6 @@ static int testCompareFloat(void *p1, void *p2);
 
 int destroy_Rarr(struct record* ga); //remove the array
 
-static void print_array(void *a);
+static void print_array(struct record *a, const char* file_path);
 
 #endif
