@@ -39,9 +39,9 @@ int main(int argc, char *argv[]){
         printf("Array size: %u\n", length_array);
         printf("Sorting the Array...\n");
         clock_t begin = clock();
-        merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), 100, compare_int);
+        merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), 100, compare_float);
         clock_t end = clock();
-        clock_t time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
         if(time_spent > 60){
             int min = time_spent / 60;
             int sec = time_spent - (min * 60);
@@ -58,9 +58,9 @@ int main(int argc, char *argv[]){
         printf("Array size: %u\n", length_array);
         printf("Sorting the Array...\n");
         clock_t begin = clock();
-        merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), 100, compare_int);
+        merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), 100, compare_string);
         clock_t end = clock();
-        clock_t time_spent = ((double)(end - begin)) / CLOCKS_PER_SEC;
+        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
         if(time_spent > 60){
             int min = time_spent / 60;
             int sec = time_spent - (min * 60);
