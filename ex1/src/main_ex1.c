@@ -223,9 +223,9 @@ void testPerf(const char *input){
         printf("Error opening file");
         exit(1);
     }
-    fprintf(fp, "Type \t K \t\t Time \n");
-    
-    for(int i = 0; i <= 500; i++){
+    fprintf(fp, "Type\tK\tTime\n");
+    fflush(fp);
+    for(int i = 0; i <= 250; i++){
         struct record *str_a = malloc(sizeof(struct record) * length_array);
         memcpy(str_a, a, sizeof(struct record) * length_array);
         printf("Sorting with k = %d, ", i);
@@ -234,7 +234,8 @@ void testPerf(const char *input){
         clock_t end = clock();
         double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
         printf("time spent: %f\n", time_spent);
-        fprintf(fp, "%d \t\t %d \t\t %f\n", 1, i, time_spent);
+        fprintf(fp, "%d\t%d\t%f\n", 1, i, time_spent);
+        fflush(fp);
         free(str_a);
     }
     printf("Sorting with string done.\n");
@@ -247,8 +248,10 @@ void testPerf(const char *input){
         printf("Error opening file");
         exit(1);
     }
-    fprintf(fp, "Type \t K \t\t Time \n");
-    for(int i = 0; i <= 500; i++){
+    fprintf(fp, "Type\tK\tTime\n");
+    fflush(fp);
+
+    for(int i = 0; i <= 250; i++){
         struct record *int_a = malloc(sizeof(struct record) * length_array);
         memcpy(int_a, a, sizeof(struct record) * length_array);
         printf("Sorting with k = %d, ", i);
@@ -257,7 +260,8 @@ void testPerf(const char *input){
         clock_t end = clock();
         double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
         printf("time spent: %f\n", time_spent);
-        fprintf(fp, "%d \t\t %d \t\t %f\n", 2, i, time_spent);
+        fprintf(fp, "%d\t%d\t%f\n", 2, i, time_spent);
+        fflush(fp);
         free(int_a);
     }
     printf("Sorting with int done.\n");
@@ -269,8 +273,9 @@ void testPerf(const char *input){
         printf("Error opening file");
         exit(1);
     }
-    fprintf(fp, "Type \t K \t\t Time \n");
-    for(int i = 0; i <= 500; i++){
+    fprintf(fp, "Type\tK\tTime\n");
+    fflush(fp);
+    for(int i = 0; i <= 250; i++){
         struct record *float_a = malloc(sizeof(struct record) * length_array);
         memcpy(float_a, a, sizeof(struct record) * length_array);
         printf("Sorting with k = %d, ", i);
@@ -279,7 +284,8 @@ void testPerf(const char *input){
         clock_t end = clock();
         double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
         printf("time spent: %f\n", time_spent);
-        fprintf(fp, "%d \t\t %d \t\t %f\n", 3, i, time_spent);
+        fprintf(fp, "%d\t%d\t%f\n", 3, i, time_spent);
+        fflush(fp);
         free(float_a);
     }
     printf("Sorting with float done.\n");
