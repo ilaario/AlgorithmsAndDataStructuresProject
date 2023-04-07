@@ -1,13 +1,15 @@
 #include "main_ex1.h"
 
 int main(int argc, char *argv[]){
-    if(argc < 5){
+    if(argc < 4){
         printf("main: Error, missing arguments\n");
         exit(EXIT_FAILURE);
     }
 
-    if(!strcmp("test", argv[5])){
-        testPerf(argv[1], argv[2], argv[3], argv[4]);
+    int type = atoi(argv[4]);
+
+    if(type == 4){
+        testPerf(argv[1]);
     } else {
         int k = atoi(argv[3]);
         int type = atoi(argv[4]);
@@ -77,13 +79,6 @@ int main(int argc, char *argv[]){
     return(EXIT_SUCCESS);
 }
 
-void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*)){
-    mergeSort(base, 0, nitems - 1, k, size, compar);
-    return;
-}
-
-
-
 struct record* read_array(const char* file_path){
     clock_t begin_read = clock();
     unsigned int i = 0;
@@ -130,100 +125,6 @@ struct record* read_array(const char* file_path){
     printf("Read of the file ended, allocated %d records, reading time = %fs\n", length_array, time_spent_read);
     return array_to_sort;
 }
-
-void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
-    int i,j;
-    char *curr_val = malloc(size);
-    for(i = 0; i < nitems; i++){
-        j = i;
-        memcpy(curr_val, base + (i * size), size);
-        int pos = binary_search(base, size, compar, i);
-        while(j > pos){
-            memcpy(base + ((j) * size), base + ((j - 1) * size), size);
-            j--;
-        }
-        memcpy(base + ((pos) * size), curr_val, size);
-    }
-    free(curr_val);
-}
-
-static int binary_search(void *base, size_t size, int (*compar)(const void *, const void*), int val_pos){
-    char *arr = (char *)base;
-    int low = 0, high = val_pos - 1, mid;
-    while(low <= high){
-        mid = low + (high - low) / 2;
-        if(compar(arr + (val_pos * size), arr + (mid * size)) == 0){
-            return mid + 1;
-        }
-        else if(compar(arr + (val_pos * size), arr + (mid * size)) > 0){
-            low = mid + 1;
-        }
-        else{
-            high = mid - 1;
-        }
-    }
-    return low;
-}
-
-
-void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*)){
-    int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  //nitems = 13: 1 2 3 4 5 6 7 8 9 10 11 12 13
-    //creation of temp arrays
-    void *left_arr = malloc(div_1 * size);
-    void *right_arr = malloc(div_2 * size);
-    
-
-    for(i=0;i<div_1;i++){
-        memcpy(left_arr + (i * size), base + ((left + i) * size), size);
-    }
-    for(j=0;j<div_2;j++){
-        memcpy(right_arr + (j * size), base + ((mid + 1 + j) * size), size);
-    }
-
-    i = 0;  
-    j = 0;
-    k = left;
-
-    while(i < div_1 && j < div_2){
-        if(compar(left_arr + (i * size), right_arr + (j * size)) <= 0){
-            memcpy(base + (k * size), left_arr + (i * size), size);
-            i++;
-        }
-        else{
-            memcpy(base + (k * size), right_arr + (j * size), size);
-            j++;
-        }
-        k++;
-    }
-
-    while (i < div_1) {
-        memcpy(base + (k * size), left_arr + (i * size), size);
-        i++;
-        k++;
-    }
- 
-    while (j < div_2) {
-        memcpy(base + (k * size), right_arr + (j * size), size);
-        j++;
-        k++;
-    }
-
-    free(left_arr);
-    free(right_arr);
-}
-
-void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar)(const void *, const void*)){
-    if((right - left) <= k){
-        insertionSort(base + (left * size), right - left + 1, size, compar);
-        return;
-    } else if(left < right){
-        int mid = left + (right - left) / 2;
-        mergeSort(base, left, mid, k, size, compar);
-        mergeSort(base, mid + 1, right, k, size, compar);
-        merge(base, left, mid, right, size, compar);
-    }
-}
-
 
 
 // Function that implements the precedence relation between integers
@@ -312,11 +213,12 @@ void print_array(struct record *a, const char* file_path){
     printf("Done in %fs!\n", time_spent);
 }
 
-void testPerf(const char *input, const char *output_string, const char *output_int, const char *output_float){
+void testPerf(const char *input){
     struct record *a = read_array(input);
 
     printf("Testing performance of sorting with string with different values of k\n");
-    FILE *fp = fopen(output_string, "w");
+    system("mkdir -p output");
+    FILE *fp = fopen("output/perfStr.csv", "w");
     if(fp == NULL){
         printf("Error opening file");
         exit(1);
@@ -326,7 +228,7 @@ void testPerf(const char *input, const char *output_string, const char *output_i
     for(int i = 0; i <= 500; i++){
         struct record *str_a = malloc(sizeof(struct record) * length_array);
         memcpy(str_a, a, sizeof(struct record) * length_array);
-        printf("Sorting with i = %d, ", i);
+        printf("Sorting with k = %d, ", i);
         clock_t start = clock();
         merge_binary_insertion_sort(str_a, length_array, sizeof(struct record), i, compare_string);
         clock_t end = clock();
@@ -340,7 +242,7 @@ void testPerf(const char *input, const char *output_string, const char *output_i
 
 
     printf("Testing performance of sorting with int with different values of k\n");
-    fp = fopen(output_int, "w");
+    fp = fopen("output/perfInt.csv", "w");
     if(fp == NULL){
         printf("Error opening file");
         exit(1);
@@ -349,7 +251,7 @@ void testPerf(const char *input, const char *output_string, const char *output_i
     for(int i = 0; i <= 500; i++){
         struct record *int_a = malloc(sizeof(struct record) * length_array);
         memcpy(int_a, a, sizeof(struct record) * length_array);
-        printf("Sorting with i = %d, ", i);
+        printf("Sorting with k = %d, ", i);
         clock_t start = clock();
         merge_binary_insertion_sort(int_a, length_array, sizeof(struct record), i, compare_int);
         clock_t end = clock();
@@ -362,7 +264,7 @@ void testPerf(const char *input, const char *output_string, const char *output_i
     fclose(fp);
 
     printf("Testing performance of sorting with float with different values of k\n");
-    fp = fopen(output_float, "w");
+    fp = fopen("output/perfFloat.csv", "w");
     if(fp == NULL){
         printf("Error opening file");
         exit(1);
@@ -371,7 +273,7 @@ void testPerf(const char *input, const char *output_string, const char *output_i
     for(int i = 0; i <= 500; i++){
         struct record *float_a = malloc(sizeof(struct record) * length_array);
         memcpy(float_a, a, sizeof(struct record) * length_array);
-        printf("Sorting with i = %d, ", i);
+        printf("Sorting with k = %d, ", i);
         clock_t start = clock();
         merge_binary_insertion_sort(float_a, length_array, sizeof(struct record), i, compare_float);
         clock_t end = clock();

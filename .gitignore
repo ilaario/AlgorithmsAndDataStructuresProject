@@ -6,4 +6,6 @@
 
 # Ignore node_modules directory
 ex1/build/
+ex1/input/
+ex1/output/
 
