@@ -1,78 +1,78 @@
 #include "main_ex1.h"
 
-unsigned int length_array;
-
 int main(int argc, char *argv[]){
-    if(argc < 4){
+    if(argc < 5){
         printf("main: Error, missing arguments\n");
         exit(EXIT_FAILURE);
     }
 
-    /* SORTING SU INTEGERS */
-    int k = atoi(argv[3]);
-    int type = atoi(argv[4]);
-
-    if(type == 2){
-        printf("\nMerge Binary Insertion Sort su Integers\n");
-        struct record *read_int = read_array(argv[1]);
-        printf("Array before sorting:\n");
-        printf("Array size: %u\n", length_array);
-        printf("Sorting the Array...\n");
-        clock_t begin = clock();
-        merge_binary_insertion_sort(read_int, length_array, sizeof(struct record), 100, compare_int);
-        clock_t end = clock();
-        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-        if(time_spent > 60){
-            int min = time_spent / 60;
-            int sec = time_spent - (min * 60);
-            printf("Time spent ordering the int's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
-        } else {
-            printf("Time spent ordering the int's array: %fs\n", time_spent);
-        }
-        print_array(read_int, argv[2]);
-        destroy_Rarr(read_int);
-    } else if (type == 3){
-            /* SORTING SU FLOAT */
-        printf("\n\nMerge Binary Insertion Sort su Floats\n");
-        struct record *read_float = read_array(argv[1]);
-        printf("Array before sorting:\n");
-        printf("Array size: %u\n", length_array);
-        printf("Sorting the Array...\n");
-        clock_t begin = clock();
-        merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), 100, compare_float);
-        clock_t end = clock();
-        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-        if(time_spent > 60){
-            int min = time_spent / 60;
-            int sec = time_spent - (min * 60);
-            printf("Time spent ordering the float's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
-        } else {
-            printf("Time spent ordering the float's array: %fs\n", time_spent);
-        }
-        print_array(read_float, argv[2]);
-        destroy_Rarr(read_float);
-    } else if(type == 1) {
-        printf("\n\nMerge Binary Insertion Sort su String\n");
-        struct record *read_string = read_array(argv[1]);
-        printf("Array before sorting:\n");
-        printf("Array size: %u\n", length_array);
-        printf("Sorting the Array...\n");
-        clock_t begin = clock();
-        merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), 100, compare_string);
-        clock_t end = clock();
-        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-        if(time_spent > 60){
-            int min = time_spent / 60;
-            int sec = time_spent - (min * 60);
-            printf("Time spent ordering the string's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
-        } else {
-            printf("Time spent ordering the string's array: %fs\n", time_spent);
-        }
-        print_array(read_string, argv[2]);
-        destroy_Rarr(read_string);
+    if(!strcmp("test", argv[5])){
+        testPerf(argv[1], argv[2], argv[3], argv[4]);
     } else {
-        printf("main: Error, wrong argument\n");
-        exit(EXIT_FAILURE);
+        int k = atoi(argv[3]);
+        int type = atoi(argv[4]);
+        if(type == 2){
+            printf("\nMerge Binary Insertion Sort su Integers\n");
+            struct record *read_int = read_array(argv[1]);
+            printf("Array before sorting:\n");
+            printf("Array size: %u\n", length_array);
+            printf("Sorting the Array...\n");
+            clock_t begin = clock();
+            merge_binary_insertion_sort(read_int, length_array, sizeof(struct record), k, compare_int);
+            clock_t end = clock();
+            double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            if(time_spent > 60){
+                int min = time_spent / 60;
+                int sec = time_spent - (min * 60);
+                printf("Time spent ordering the int's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+            } else {
+                printf("Time spent ordering the int's array: %fs\n", time_spent);
+            }
+            print_array(read_int, argv[2]);
+            destroy_Rarr(read_int);
+        } else if (type == 3){
+                /* SORTING SU FLOAT */
+            printf("\n\nMerge Binary Insertion Sort su Floats\n");
+            struct record *read_float = read_array(argv[1]);
+            printf("Array before sorting:\n");
+            printf("Array size: %u\n", length_array);
+            printf("Sorting the Array...\n");
+            clock_t begin = clock();
+            merge_binary_insertion_sort(read_float, length_array, sizeof(struct record), k, compare_float);
+            clock_t end = clock();
+            double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            if(time_spent > 60){
+                int min = time_spent / 60;
+                int sec = time_spent - (min * 60);
+                printf("Time spent ordering the float's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+            } else {
+                printf("Time spent ordering the float's array: %fs\n", time_spent);
+            }
+            print_array(read_float, argv[2]);
+            destroy_Rarr(read_float);
+        } else if(type == 1) {
+            printf("\n\nMerge Binary Insertion Sort su String\n");
+            struct record *read_string = read_array(argv[1]);
+            printf("Array before sorting:\n");
+            printf("Array size: %u\n", length_array);
+            printf("Sorting the Array...\n");
+            clock_t begin = clock();
+            merge_binary_insertion_sort(read_string, length_array, sizeof(struct record), k, compare_string);
+            clock_t end = clock();
+            double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            if(time_spent > 60){
+                int min = time_spent / 60;
+                int sec = time_spent - (min * 60);
+                printf("Time spent ordering the string's array: %dmin and %ds (%fs)\n", min, sec, time_spent);
+            } else {
+                printf("Time spent ordering the string's array: %fs\n", time_spent);
+            }
+            print_array(read_string, argv[2]);
+            destroy_Rarr(read_string);
+        } else {
+            printf("main: Error, wrong argument\n");
+            exit(EXIT_FAILURE);
+        }
     }
     return(EXIT_SUCCESS);
 }
@@ -227,7 +227,7 @@ void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar
 
 
 // Function that implements the precedence relation between integers
-static int compare_int(const void* r1_p,const void* r2_p){
+int compare_int(const void* r1_p,const void* r2_p){
     if(r1_p == NULL){
         fprintf(stderr,"compare_int: the first parameter cannot be NULL \n");
         exit(EXIT_FAILURE);
@@ -253,7 +253,7 @@ static int testCompareInt(const void *r1, const void *r2){
 }
 
 // Function that implements the precedence relation between strings
-static int compare_string(const void* r1_p,const void* r2_p){
+int compare_string(const void* r1_p,const void* r2_p){
     if(r1_p == NULL){
         fprintf(stderr,"compare_string: the first parameter cannot be NULL");
         exit(EXIT_FAILURE);
@@ -270,7 +270,7 @@ static int compare_string(const void* r1_p,const void* r2_p){
 
 
 // Function that implements the precedence relation between float
-static int compare_float(const void* r1_p, const void* r2_p) {
+int compare_float(const void* r1_p, const void* r2_p) {
     if(r1_p == NULL){
         fprintf(stderr,"compare_float: the first parameter cannot be NULL");
         exit(EXIT_FAILURE);
