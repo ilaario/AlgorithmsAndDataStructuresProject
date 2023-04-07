@@ -2,6 +2,7 @@
 *.csv
 *.out
 *.log
+*.py
 
 # Ignore node_modules directory
 ex1/build/
