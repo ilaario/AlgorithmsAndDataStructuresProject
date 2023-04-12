@@ -3,9 +3,13 @@
 *.out
 *.log
 *.py
+*.txt
 
 # Ignore node_modules directory
 ex1/build/
 ex1/input/
 ex1/output/
+ex2/build/
+ex2/input/
+ex2/output/
 .vscode/
