@@ -24,4 +24,5 @@ run_unityTest:
 
 clear:
 	rm -rf build
+	clear
 

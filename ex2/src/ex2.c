@@ -87,11 +87,12 @@ void check_correctme(struct SkipList* list, const char* file_name) {
 
 void find_errors(const char* path1, const char* path2, size_t max_height) {
     struct SkipList* list;
-    new_skiplist(list, max_height, compare);
+    new_skiplist(&list, max_height, compare);
     if (list == NULL) {
         fprintf(stderr, "find_errors(): error while creating SkipList\n");
         exit(EXIT_FAILURE);
     }
+    printf("find_errors(): SkipList created successfully!\n");
 
     load_dictionary(list, path1);
 
@@ -99,7 +100,7 @@ void find_errors(const char* path1, const char* path2, size_t max_height) {
 
     check_correctme(list, path2);
 
-    clear_skiplist(list);
+    clear_skiplist(&list);
 }
 
 int main(int argc, char** argv){

@@ -36,6 +36,7 @@ struct Node* createNode(void *item, int level){
         return NULL;
     }
     printf("createNode(): Node initialized\n");
+    printf("createNode(): Node created with item = %s and level = %d\n", (char*)n->item, n->size);
     return n;
 }
 
@@ -67,13 +68,16 @@ void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const
     }
     printf("new_skiplist(): Head created\n");
 
-    list_tmp->max_height = 0;
+    list_tmp->max_height = max_height;
+    printf("new_skiplist(): list -> max_height = %d\n", list_tmp->max_height);
 
-    list_tmp->max_level = 1;
+    list_tmp->max_level = list_tmp->head->size;
+    printf("new_skiplist(): list -> max_level = %d\n", list_tmp->max_level);
     list_tmp->compare = compar;
     
     printf("new_skiplist(): List initialized\n");
-    list = &list_tmp;
+    *list = list_tmp;
+
 }
 
 void clear_skiplist(struct SkipList **list){
@@ -90,18 +94,24 @@ void clear_skiplist(struct SkipList **list){
 }
 
 void insert_skiplist(struct SkipList *list, void *item){
+    printf("insert_skiplist(): list -> max_level = %d\n", list -> max_level);
+    printf("insert_skiplist(): list -> max_height = %d\n", list -> max_height);
     struct Node *new_node = createNode(item, randomLevel());
     if (new_node == NULL){
-        fprintf(stderr, "insert_skiplist(): new_node malloc failed\n");
+        fprintf(stderr, "insert_skiplist(): new_node malloc has failed\n");
         exit(EXIT_FAILURE);
     }
-
-    if (new_node -> size > list -> max_height){
-        list -> max_height = new_node -> size;
+    printf("insert_skiplist(): new_node created\n");
+    printf("insert_skiplist(): new_node -> size = %d\n", new_node -> size);
+    printf("insert_skiplist(): list -> max_level = %d\n", list -> max_level);
+    if (new_node -> size > list -> max_level){
+        list -> max_level = new_node -> size;
     }
-
+    printf("insert_skiplist(): list -> max_level after checking new_node = %d\n", list -> max_level);
+    
     struct Node *x = list->head;
-    for (size_t k = list -> max_level - 1; k >= 0; --k){
+    for (int k = list -> max_level - 1; k >= 0; --k){
+        printf("insert_skiplist(): k = %d\n", k);
         if(x -> next[k] != NULL || list->compare(x -> next[k] -> item, item) < 0){
             if (k < new_node -> size){
                 new_node -> next[k] = x -> next[k];
@@ -139,4 +149,3 @@ void print_skip_list(struct SkipList* list) {
         printf("NIL\n");
     }
 }
-
