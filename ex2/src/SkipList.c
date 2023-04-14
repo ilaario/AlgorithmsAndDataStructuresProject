@@ -14,132 +14,152 @@ struct Node {
 };
 
 struct Node* createNode(void *item, int level){
-    struct Node* n = (struct Node*)malloc(sizeof(struct Node));
-    if (n == NULL) {
-        fprintf(stderr, "createNode(): node malloc error\n");
-        return NULL;
+    if(item == NULL) {
+        fprintf(stderr, "An error occurred in create_node: first parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
     }
-    printf("createNode(): Node created\n");
+    if(level < 0) {
+        fprintf(stderr, "An error occurred in create_node: second parameter cannot be negative \n");
+        exit(EXIT_FAILURE);
+    }
 
-    n->item = item;
-    n->size = level;
-    printf("createNode(): Creation of n -> next pointers\n");
-    n->next = (struct Node**)malloc((unsigned long int)(level) * sizeof(struct Node*));
-    for (size_t i = 0; i < level; i++){
-        n->next[i] = NULL;
+    struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+    if(node == NULL) {
+        fprintf(stderr, "An error occurred in create_node: unable to allocate memory for the Node \n");
+        exit(EXIT_FAILURE);
     }
-    
-    printf("createNode(): n -> next pointers created\n");
 
-    if (n->next == NULL) {
-        fprintf(stderr, "createNode(): next malloc error\n");
-        return NULL;
-    }
-    printf("createNode(): Node initialized\n");
-    printf("createNode(): Node created with item = %s and level = %d\n", (char*)n->item, n->size);
-    return n;
+    node->next = (struct Node **)malloc(level * sizeof(struct Node*));
+    node->item = item;
+    node->size = level;
+
+    return node;
 }
 
 int randomLevel() {
     int lvl = 1;
-    srand(time(NULL)); // Inizializzazione del generatore di numeri casuali
-
-    while ((double) rand() / RAND_MAX < 0.5 && lvl < MAX_HEIGHT) {
+    int r = ( random() % MAX_HEIGHT );
+    while (r < (MAX_HEIGHT/2) && lvl < MAX_HEIGHT) {
         lvl++;
+        r = ( random() % MAX_HEIGHT );
     }
-
     return lvl;
 }
 
+static void adapt_head_size(struct SkipList *list, int newSize) {
+    /* A new node is created and it will become the head of the skiplist; 
+     * the node is created with an updated size */
+    struct Node *newHead = createNode("head", newSize);
+    struct Node *prevHead;
+    int k = 0;
+
+    /* Adapting the pointers to the following elements in the skiplist */
+    while(k < newSize) {
+        if(k < list->max_level) {
+            newHead->next[k] = (list->head)->next[k];
+        }
+        else {
+            newHead->next[k] = NULL;
+        }
+        k++;
+    }
+
+    list->max_level = newSize;
+    prevHead = list->head;
+    list->head = newHead;
+    free(prevHead);
+}
+
+//-------------------------------------------------------------
+
 void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const void *, const void*)){
     struct SkipList* list_tmp = malloc(sizeof(struct SkipList));
-    if (list_tmp == NULL) {
-        fprintf(stderr, "new_skiplist(): skiplist malloc error\n");
+    if(compar == NULL) {
+        fprintf(stderr, "An error occured in create_skipList: parameter cannot be NULL \n");
         exit(EXIT_FAILURE);
     }
-    printf("new_skiplist(): List created\n");
-
-    list_tmp -> head = NULL;
-    printf("new_skiplist(): NULL-Head initialized\n");
-
-    if ((list_tmp->head = createNode(NULL, max_height)) == NULL) {
-        fprintf(stderr, "new_skiplist(): skiplist createNode error\n");
+    if(list_tmp == NULL) {
+        fprintf(stderr, "An error occurred in create_skipList: unable to allocate memory for the SkipList \n");
         exit(EXIT_FAILURE);
     }
-    printf("new_skiplist(): Head created\n");
 
-    list_tmp->max_height = max_height;
-    printf("new_skiplist(): list -> max_height = %d\n", list_tmp->max_height);
+    struct Node *h = createNode("head", 1);
 
-    list_tmp->max_level = list_tmp->head->size;
-    printf("new_skiplist(): list -> max_level = %d\n", list_tmp->max_level);
+    list_tmp->head = h;
+    list_tmp->max_level = 0;
     list_tmp->compare = compar;
-    
-    printf("new_skiplist(): List initialized\n");
-    *list = list_tmp;
-
+    (*list) = list_tmp;
 }
 
 void clear_skiplist(struct SkipList **list){
-    struct Node *current = (*list)->head;
-    struct Node *next = NULL;
-    while (current != NULL){
-        next = current->next[0];
-        free(current->next);
-        free(current);
-        current = next;
+    struct Node *temp;
+    struct Node *n = (*list)->head;
+    while(n != NULL) {
+        //char *item = (char *)n->item;
+        temp = n->next[0];
+        //free(item);
+        free(n->next);
+        free(n);
+        n = temp;
     }
     free(*list);
-    *list = NULL;
+
 }
 
 void insert_skiplist(struct SkipList *list, void *item){
-    printf("insert_skiplist(): list -> max_level = %d\n", list -> max_level);
-    printf("insert_skiplist(): list -> max_height = %d\n", list -> max_height);
-    struct Node *new_node = createNode(item, randomLevel());
-    if (new_node == NULL){
-        fprintf(stderr, "insert_skiplist(): new_node malloc has failed\n");
+    if(list == NULL) {
+        fprintf(stderr, "An error occurred in insertSkipList: first parameter cannot be NULL \n");
         exit(EXIT_FAILURE);
     }
-    printf("insert_skiplist(): new_node created\n");
-    printf("insert_skiplist(): new_node -> size = %d\n", new_node -> size);
-    printf("insert_skiplist(): list -> max_level = %d\n", list -> max_level);
-    if (new_node -> size > list -> max_level){
-        list -> max_level = new_node -> size;
+    if(item == NULL) {
+        fprintf(stderr, "An error occurred in insertSkipList: second parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
     }
-    printf("insert_skiplist(): list -> max_level after checking new_node = %d\n", list -> max_level);
-    
-    struct Node *x = list->head;
-    for (int k = list -> max_level - 1; k >= 0; --k){
-        printf("insert_skiplist(): k = %d\n", k);
-        if(x -> next[k] != NULL || list->compare(x -> next[k] -> item, item) < 0){
-            if (k < new_node -> size){
-                new_node -> next[k] = x -> next[k];
-                x -> next[k] = new_node;
-            } else {
-                x = x -> next[k];
-                k++;
+    int sizeN = randomLevel();
+    struct Node *newNode = createNode(item, sizeN);
+    if(newNode->size > list->max_level) {
+        adapt_head_size(list, newNode->size);
+    }
+    struct Node *temp = list->head;
+    for(int k = list->max_level-1; k >= 0; k--) {
+        if(temp->next[k] == NULL || (*(list)->compare)(item, (temp->next[k])->item)) {
+            if(k < newNode->size) {
+                newNode->next[k] = temp->next[k];
+                temp->next[k] = newNode;
             }
+        } else {
+            temp = temp->next[k];
+            k++;
         }
     }
 }
+
 
 const void* search_skiplist(struct SkipList *list, void *item){
-    struct Node *current = list->head;
-    for (size_t i = list -> max_level; i > 0; i--){
-        while (current != NULL && list->compare(current -> next[i] -> item, item) < 0){
-            current = current -> next[i];
+    if(list == NULL) {
+        fprintf(stderr, "An error occurred in insertSkipList: first parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
+    }
+    if(item == NULL) {
+        fprintf(stderr, "An error occurred in insertSkipList: second parameter cannot be NULL \n");
+        exit(EXIT_FAILURE);
+    }
+
+    struct Node *temp = list->head;
+    int i;
+    for(i = list->max_level-1; i >= 0; i--) {
+        while(temp->next[i] != NULL && (*(list)->compare)((temp->next[i])->item, item) ) {
+            temp = temp->next[i];
         }
     }
-    
-    current = current -> next[0];
-    if (current -> item != NULL && list -> compare(current -> item, item) == 0){
-        return current -> item;
+    if( (*(list)->compare)((temp->next[i+1])->item, item) == 0 && (*(list)->compare)(item,(temp->next[i+1])->item) == 0) {
+        return item;
     }
-    return NULL;
+    else
+        return NULL;
 }
-
-void print_skip_list(struct SkipList* list) {
+/*
+static void print_skip_list(struct SkipList* list) {
     struct Node* x = list->head;
     for (int i = 0; i < list->max_level; i++) {
         while (x != NULL && x->next[i] != NULL) {
@@ -148,4 +168,4 @@ void print_skip_list(struct SkipList* list) {
         }
         printf("NIL\n");
     }
-}
+} */

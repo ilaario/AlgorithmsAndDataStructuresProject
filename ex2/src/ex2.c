@@ -2,17 +2,23 @@
 
 #define IS_LETTER(x) (((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z'))
 
-int compare(void* v1, void* v2) {
-    if (v1 == NULL) {
-        fprintf(stderr, "compare: v1 must not be null\n");
-        exit(EXIT_FAILURE);
-    }
-    if (v2 == NULL) {
-        fprintf(stderr, "compare: v1 must not be null\n");
-        exit(EXIT_FAILURE);
-    }
-    return strcmp((const char*)v1, (const char*)v2);
+int compare(const void* v1, const void* v2) {
+  if(v1 == NULL){
+      fprintf(stderr,"precedes_string: the first parameter cannot be NULL \n");
+      exit(EXIT_FAILURE);
+   }
+   if(v2 == NULL){
+      fprintf(stderr,"precedes_string: the second parameter cannot be NULL \n");
+      exit(EXIT_FAILURE);
+   }
+   char *word1 = (char *)v1;
+   char *word2 = (char *)v2;
+    if (strcasecmp(word1, word2) < 0)
+      return 1;
+
+   return 0;
 }
+
 
 void load_dictionary(struct SkipList* list, const char* file_name) {
     char* string;
@@ -67,14 +73,14 @@ void check_correctme(struct SkipList* list, const char* file_name) {
             c = (char)tolower(c);
             strncat(string, &c, 1);
         } else if (c == ' ') {
-            if (search_skiplist(list, string) == -1) {
+            if (search_skiplist(list, string) == NULL) {
                 printf("%s\n", string);
             }
             strcpy(string, "");
         }
     }
 
-    if (search_skiplist(list, string) == -1) {
+    if (search_skiplist(list, string) == NULL) {
         printf("%s\n", string);
     }
     strcpy(string, "");
@@ -96,23 +102,17 @@ void find_errors(const char* path1, const char* path2, size_t max_height) {
 
     load_dictionary(list, path1);
 
-    // print_skip_list(list);
-
     check_correctme(list, path2);
 
     clear_skiplist(&list);
 }
 
 int main(int argc, char** argv){
-    struct SkipList *list;
     if (argc < 3) {
         fprintf(stderr, "Usage: ./main_ex2 <dictionary.txt> <correctme.txt>\n");
         exit(EXIT_FAILURE);
     }
-
     printf("\nMAX_HEIGHT: %d\n", MAX_HEIGHT);
-
     find_errors(argv[1], argv[2], MAX_HEIGHT);
-
     return EXIT_SUCCESS;
 }
