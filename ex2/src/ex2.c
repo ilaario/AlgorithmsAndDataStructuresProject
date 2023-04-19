@@ -3,18 +3,19 @@
 #define IS_LETTER(x) (((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z'))
 
 int compare(const void* v1, const void* v2) {
-  if(v1 == NULL){
+    if(v1 == NULL){
       fprintf(stderr,"precedes_string: the first parameter cannot be NULL \n");
       exit(EXIT_FAILURE);
    }
-   if(v2 == NULL){
+    if(v2 == NULL){
       fprintf(stderr,"precedes_string: the second parameter cannot be NULL \n");
       exit(EXIT_FAILURE);
    }
-   char *word1 = (char *)v1;
-   char *word2 = (char *)v2;
-    if (strcasecmp(word1, word2) < 0)
-      return 1;
+    char *word1 = (char *)v1;
+    char *word2 = (char *)v2;
+    if (strcasecmp(word1, word2) < 0){
+        return 1;
+    }
 
    return 0;
 }
@@ -45,6 +46,7 @@ void load_dictionary(struct SkipList* list, const char* file_name) {
         strncpy(string, buffer, strlen(buffer) - 1);
         // printf("%s\n", string);
         insert_skiplist(list, string);
+        //free(string);
     }
     t = clock() - t;
 
@@ -52,6 +54,7 @@ void load_dictionary(struct SkipList* list, const char* file_name) {
     printf("Execution time: %f s!\n", (((float)t) / CLOCKS_PER_SEC));
 
     fclose(fp);
+
 }
 
 void check_correctme(struct SkipList* list, const char* file_name) {
