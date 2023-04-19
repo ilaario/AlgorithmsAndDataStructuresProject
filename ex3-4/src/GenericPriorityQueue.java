@@ -1,11 +1,11 @@
 import java.util.Comparator;
 
-public class PriorityQueue<E> implements AbstractQueue<E> {
+public class GenericPriorityQueue<E> implements AbstractQueue<E> {
     private Object[] heap;
     private int size;
     private Comparator<E> comparator;
 
-    public PriorityQueue(Comparator<E> comparator) {
+    public GenericPriorityQueue(Comparator<E> comparator) {
         this.heap = new Object[10];
         this.size = 0;
         this.comparator = comparator;
