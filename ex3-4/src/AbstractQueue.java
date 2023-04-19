@@ -3,6 +3,5 @@ public interface AbstractQueue<E> {
     public boolean push(E e);
     public E top();
     public void pop();
-    //ciao
   };
   

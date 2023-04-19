@@ -1,6 +1,6 @@
 import java.util.Comparator;
 
-public class TestPQ{
+public class PriorityQueueTest {
     public static void main(String[] args){
         System.out.println("Inserimento valori int in pq");
         GenericPriorityQueue<Integer> pq = new GenericPriorityQueue<Integer>(Comparator.naturalOrder());
