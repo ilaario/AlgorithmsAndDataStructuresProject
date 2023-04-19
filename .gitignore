@@ -4,6 +4,7 @@
 *.log
 *.py
 *.txt
+*.iml
 
 # Ignore node_modules directory
 ex1/build/
@@ -14,3 +15,5 @@ ex2/input/
 ex2/output/
 ex3-4/build/
 .vscode/
+.idea/
+out/
