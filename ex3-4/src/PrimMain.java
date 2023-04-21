@@ -1,3 +1,9 @@
+import ConsoleColors.ConsoleColors;
+import GraphLibrary.Graph;
+import GraphLibrary.GraphException;
+import GraphLibrary.Vertex;
+import Prim.Prim;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -5,8 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.Set;
+
 public class PrimMain {
 
     private static final Charset ENCODING = StandardCharsets.UTF_8;
@@ -68,7 +74,7 @@ public class PrimMain {
 
             long runTimeInNanoSeconds = (nanoTime2 - nanoTime1);
             System.out
-                    .format("%sTime taken by Prim:%s %.2f milliseconds%s\n\n", ConsoleColors.CYAN,
+                    .format("%sTime taken by Prim.Prim:%s %.2f milliseconds%s\n\n", ConsoleColors.CYAN,
                             ConsoleColors.GREEN_BOLD_BRIGHT, (double) (runTimeInNanoSeconds) / 1000000,
                             ConsoleColors.RESET);
 
@@ -77,15 +83,6 @@ public class PrimMain {
             e.printStackTrace(System.err);
         }
     }
-
-    /**
-     * From the given {@code Set} of vertices print the path and the distance from
-     * {@code srcLabel} to {@code dstLabel}
-     *
-     * @param ris      {@code Set} of vertices resulting from the call to Dijkstra
-     * @param srcLabel
-     * @param dstLabel
-     */
 
     public static void print_info(Set<Vertex<String, String>> ris, String srcLabel, String dstLabel) {
         System.out.format("%sPrinting info...%s \n", ConsoleColors.YELLOW, ConsoleColors.RESET);
@@ -97,34 +94,8 @@ public class PrimMain {
                 ConsoleColors.RESET);
         System.out.format("%sDestination:%s %s%s \n", ConsoleColors.CYAN, ConsoleColors.GREEN_BOLD_BRIGHT, dstLabel,
                 ConsoleColors.RESET);
-        double distance = 0;
-        for (Vertex<String, String> v : ris) {
-            distance = distance + v.getDistance();
-        }
+        double distance = ris.size();
         System.out.printf("%sTotal distance:%s %.2f Km%s \n", ConsoleColors.CYAN, ConsoleColors.GREEN_BOLD_BRIGHT,
                 distance / 1000, ConsoleColors.RESET);
-    }
-
-    /**
-     * Print the path from the destination {@code Vertex} up to the source
-     *
-     * @param v {@code Vertex} destination
-     * @return the number of cities crossed
-     */
-    private static int path_aux(Vertex<String, String> v) {
-        if (v.getPi() == null) {
-            System.out.format("\t%s%s%s\n", ConsoleColors.PURPLE_BACKGROUND_BRIGHT, v.getLabel(), ConsoleColors.RESET);
-            return 1;
-        }
-
-        int c = path_aux(v.getPi());
-        System.out.println("\t" + v.getLabel());
-        return c + 1;
-    }
-
-    private static int path(Vertex<String, String> v) {
-        int c = path_aux(v.getPi());
-        System.out.format("\t%s%s%s\n", ConsoleColors.PURPLE_BACKGROUND_BRIGHT, v.getLabel(), ConsoleColors.RESET);
-        return c + 1;
     }
 }

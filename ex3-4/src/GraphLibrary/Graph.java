@@ -1,4 +1,5 @@
-import java.util.Enumeration;
+package GraphLibrary;
+
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
@@ -9,47 +10,35 @@ public class Graph<T, S> {
     private GraphType type = GraphType.DIRECTED;
 
     /**
-     * Init a {@code Directed} {@code Graph}
+     * Creazione di un {@code grafo} vuoto – O(1)
      */
     public Graph() {
         this.vertices = new Hashtable<>();
     }
 
     /**
-     * Init a {@code Graph} of given {@code type}
-     *
-     * @param type of the new {@code Graph}
-     * @see GraphType
-     */
-    public Graph(GraphType type) {
-        this.vertices = new Hashtable<>();
-        this.type = type;
-    }
-
-    /**
-     * @return the {@code type} of the {@code Graph}
+     * @return the {@code type} of the {@code GraphLibrary.Graph}
      */
     public GraphType getType() {
         return this.type;
     }
 
     /**
-     * @return {@code TRUE} iff the {@code Graph} is {@code  Directed},
-     *         {@code FALSE} otherwise
+     * Verifica se il {@code grafo} è {@code diretto} – O(1)
      */
     public boolean isDirected() {
         return this.type == GraphType.DIRECTED;
     }
 
     /**
-     * @return the number of vertices
+     * Determinazione del numero di {@code nodi} – O(1)
      */
     public int getNumberVertices() {
         return this.vertices.size();
     }
 
     /**
-     * @return the number of edges
+     * Determinazione del numero di {@code archi} – O(n)
      */
     public int getNumberEdges() {
         int sum = 0;
@@ -62,13 +51,12 @@ public class Graph<T, S> {
     }
 
     /**
-     * Add a {@code Vertex} with the given {@code vertexLabel} into the
-     * {@code Graph}
+     * Aggiunta di un {@code nodo} – O(1)
      *
      * @param vertexLabel
-     * @return {@code TRUE} iff added successfully, {@code FALSE} if already exists
+     * @return {@code TRUE} se il nodo è aggiunto con successo, {@code FALSE} se esiste già
      *         a vertex with the same {@code vertexLabel}
-     * @throws NullPointerException iff {@code vertexLabel} is {@code null}
+     * @throws NullPointerException se {@code vertexLabel} è {@code null}
      * @see Vertex
      */
     public boolean addVertex(T vertexLabel) throws NullPointerException {
@@ -81,10 +69,10 @@ public class Graph<T, S> {
     }
 
     /**
+     * Restituisce il {@code grafo} contiene un dato {@code nodo} – opzionale
      * @param vertexLabel
-     * @return the {@code Vertex} with the given {@code vertexLabel} on success,
-     *         {@code null} if there are no vertex with vertex {@code label}
-     * @throws NullPointerException iff {@code vertexLabel} is {@code null}
+     * @return Il {@code GraphLibrary.Vertex} con la {@code vertexLabel}, {@code null} se non esiste
+     * @throws NullPointerException se {@code vertexLabel} è {@code null}
      * @see Vertex
      */
     public Vertex<T, S> getVertex(T vertexLabel) throws NullPointerException {
@@ -95,12 +83,12 @@ public class Graph<T, S> {
     }
 
     /**
-     * Check if the vertex {@code label} is contained in the {@code Graph}
+     * Verifica se il {@code grafo} contiene un dato {@code nodo} – O(1)
      *
      * @param vertexLabel
-     * @return {@code TRUE} iff {@code vertexLabel} is contained in the
-     *         {@code Graph}, {@code FALSE} otherwise
-     * @throws NullPointerException iff {@code vertexLabel} is {@code null}
+     * @return {@code TRUE} se {@code vertexLabel} è contenuta nel
+     *         {@code GraphLibrary.Graph}, altrimenti {@code FALSE}
+     * @throws NullPointerException se {@code vertexLabel} è {@code null}
      */
     public boolean containsVertex(T vertexLabel) throws NullPointerException {
         if (vertexLabel == null)
@@ -110,17 +98,18 @@ public class Graph<T, S> {
     }
 
     /**
+     * Verifica se il {@code grafo} contiene un dato {@code arco} – O(1)
      * @param vertexA
      * @param vertexB
-     * @return {@code TRUE} iff there is an {@code edge} between {@code vertexA} and
-     *         {@code vertexB}, {@code FALSE} otherwise
+     * @return {@code TRUE} se esiste un {@code edge} tra {@code vertexA} e
+     *         {@code vertexB}, altrimenti {@code FALSE}
      * @throws NullPointerException
      *                              <ul>
-     *                              <li>if {@code vertexA} is {@code null}</li>
-     *                              <li>if {@code vertexB} is {@code null}</li>
-     *                              <li>if there are no {@code Vertex} with
-     *                              {@code vertexA} label or {@code vertexB}
-     *                              label to search on</li>
+     *                              <li>se {@code vertexA} is {@code null}</li>
+     *                              <li>se {@code vertexB} is {@code null}</li>
+     *                              <li>se non ci sono {@code GraphLibrary.Vertex} con la label
+     *                              {@code vertexA} o con la label {@code vertexB}
+     *                              in cui cercare </li>
      *                              </ul>
      */
     public boolean containsEdge(T vertexA, T vertexB) throws NullPointerException {
@@ -137,8 +126,6 @@ public class Graph<T, S> {
     }
 
     /**
-     * Get all the vertices label in the {@code Graph}
-     *
      * @return a new {@link Set} of vertices label
      */
     public Set<T> getVerticesLabel() {
@@ -150,9 +137,9 @@ public class Graph<T, S> {
     }
 
     /**
-     * Get all the vertices in the {@code Graph}
+     * Recupero dei nodi del {@code grafo} – O(n)
      *
-     * @return a new {@link Set} of {@code Vertex}
+     * @return un nuovo {@link Set} di {@code GraphLibrary.Vertex}
      * @see Vertex
      */
     public Set<Vertex<T, S>> getVertices() {
@@ -164,9 +151,9 @@ public class Graph<T, S> {
     }
 
     /**
-     * Get all the edges in the {@code Graph}
+     * Recupero degli archi del {@code grafo} – O(n)
      *
-     * @return a new {@code Set} of {@code Edge}
+     * @return un nuovo {@code Set} di {@code GraphLibrary.Edge}
      * @see Edge
      */
     public Set<Edge<S,T>> getEdges() {
@@ -182,9 +169,10 @@ public class Graph<T, S> {
     }
 
     /**
-     * @param vertexLabel to remove
-     * @return the {@code Vertex} removed with the given label
-     * @throws NullPointerException iff {@code vertexLabel} is {@code null}
+     * Cancellazione di un {@code nodo} – O(n)
+     * @param vertexLabel da rimuovere
+     * @return il {@code GraphLibrary.Vertex} rimosso con la label
+     * @throws NullPointerException se {@code vertexLabel} è {@code null}
      */
     public Vertex<T, S> removeVertex(T vertexLabel) throws NullPointerException {
         if (vertexLabel == null)
@@ -207,9 +195,10 @@ public class Graph<T, S> {
     }
 
     /**
-     * @param vertexLabel vertex whose adjacents label you want to know
-     * @return a {@link Set} of adjacents label of the given {@code vertexLabel}
-     * @throws NullPointerException iff {@code vertexLabel} is {@code null}
+     * Recupero {@code vertexLabel} adiacenti di un dato {@code nodo} – O(1)
+     * @param vertexLabel il nodo di cui si vogliono conoscere gli adiacenti
+     * @return un {@link Set} di vertexLabel adiacenti al {@code vertexLabel}
+     * @throws NullPointerException se {@code vertexLabel} è {@code null}
      */
     public Set<T> getAdjacentVerticesLabel(T vertexLabel) throws NullPointerException, GraphException {
         if (vertexLabel == null)
@@ -224,10 +213,10 @@ public class Graph<T, S> {
     }
 
     /**
-     * @param vertexLabel
-     * @return a new {@link Set} of {@link Vertex} adjacents with the {@code vertex}
-     *         with the given label
-     * @throws NullPointerException iff {@code vertexLabel} is {@code null}
+     * Recupero {@code nodi} adiacenti di un dato {@code nodo} – O(1)
+     * @param vertexLabel il nodo di cui si vogliono conoscere gli adiacenti
+     * @return un {@link Set} di nodi adiacenti al {@code vertexLabel}
+     * @throws NullPointerException se {@code vertexLabel} è {@code null}
      */
     public Set<Vertex<T, S>> getAdjacentVertices(T vertexLabel) throws NullPointerException, GraphException {
         if (vertexLabel == null)
@@ -246,13 +235,12 @@ public class Graph<T, S> {
     }
 
     /**
-     * Check if the two vertices are adjacents
+     * Controlla se due {@code nodi} sono adiacenti – O(1)
      *
      * @param vertexFrom
      * @param vertexTo
-     * @return {@code TRUE} iff the two vertices are adjacents, {@code FALSE}
-     *         otherwise
-     * @throws NullPointerException iff {@code vertexFrom} OR {@code vertexTo} are
+     * @return {@code TRUE} se i due nodi sono adiacenti, altrimenti {@code FALSE}
+     * @throws NullPointerException se {@code vertexFrom} O {@code vertexTo} sono
      *                              {@code null}
      */
     public boolean areAdjacents(T vertexFrom, T vertexTo) throws NullPointerException {
@@ -268,20 +256,20 @@ public class Graph<T, S> {
     }
 
     /**
-     * Check if the two vertices are complete adjacents:
+     * Controlla se due {@code nodi} sono adiacenti e completi – O(1):
      * <ul>
-     * <li>{@code vertexA} is adjacent of {@code vertexB}</li>
-     * <li>{@code vertexB} is adjacent of {@code vertexA}</li>
+     * <li>{@code vertexA} è adiacente a {@code vertexB}</li>
+     * <li>{@code vertexB} è adiacente a {@code vertexA}</li>
      * </ul>
-     * For {@code UNDIRECTED} {@code Graph} {@link #areAdjacents(Object, Object)}
-     * and {@link #areCompleteAdjacents(Object, Object)} return the same result
+     * Per {@code UNDIRECTED} {@code GraphLibrary.Graph} {@link #areAdjacents(Object, Object)}
+     * e {@link #areCompleteAdjacents(Object, Object)} ritornano lo stesso risultato
      *
      * @param vertexA
      * @param vertexB
-     * @return {@code TRUE} iff the two vertices are complete adjacents,
-     *         {@code FALSE}
-     *         otherwise
-     * @throws NullPointerException iff {@code vertexA} OR {@code vertexB} are
+     * @return {@code TRUE} se i due nodi sono adiacenti e completi,
+     *         altrimenti {@code FALSE}
+     *
+     * @throws NullPointerException se {@code vertexA} O {@code vertexB} sono
      *                              {@code null}
      */
     public boolean areCompleteAdjacents(T vertexA, T vertexB) {
@@ -312,13 +300,14 @@ public class Graph<T, S> {
     }
 
     /**
+     * Aggiunta di un {@code arco} – O(1)
      * @param vertexFrom
      * @param vertexTo
      * @param edgeLabel
-     * @throws NullPointerException iff {@code vertexFrom} OR {@code vertexTo} OR
-     *                              {@code edgeLabel} are {@code null}
-     * @throws GraphException       if {@code vertexFrom} OR {@code vertexTo}
-     *                              are not in the {@code Graph}
+     * @throws NullPointerException se {@code vertexFrom} O {@code vertexTo} O
+     *                              {@code edgeLabel} sono {@code null}
+     * @throws GraphException       se {@code vertexFrom} O {@code vertexTo}
+     *                              non sono nel {@code GraphLibrary.Graph}
      */
     public void addEdge(T vertexFrom, T vertexTo, S edgeLabel) throws NullPointerException, GraphException {
         if (vertexFrom == null)
@@ -331,10 +320,10 @@ public class Graph<T, S> {
             throw new NullPointerException("addEdge(vertexFrom, vertexTo, edgeLabel): edgeLabel must not be null");
 
         if (!vertices.containsKey(vertexFrom))
-            throw new GraphException("There is no vertexFrom:" + vertexFrom + " in the Graph");
+            throw new GraphException("There is no vertexFrom:" + vertexFrom + " in the GraphLibrary.Graph");
 
         if (!vertices.containsKey(vertexTo))
-            throw new GraphException("There is no vertexTo" + vertexTo + " in the Graph");
+            throw new GraphException("There is no vertexTo" + vertexTo + " in the GraphLibrary.Graph");
 
         Vertex<T, S> firstVertex = vertices.get(vertexFrom);
 
@@ -347,17 +336,16 @@ public class Graph<T, S> {
     }
 
     /**
+     * Cancellazione di un {@code arco} – O(1)
      * @param vertexA
      * @param vertexB
-     * @return the {@code Edge} removed
-     * @throws NullPointerException iff {@code vertexA} OR {@code vertexB} are
+     * @return il {@code GraphLibrary.Edge} rimosso
+     * @throws NullPointerException se {@code vertexA} O {@code vertexB} sono
      *                              {@code null}
      * @throws GraphException
      *                              <ul>
-     *                              <li>if {@code vertexA} OR {@code vertexB} are
-     *                              not in the {@code Graph}</li>
-     *                              <li>if there is no {@code edge} between
-     *                              the two vertices</li>
+     *                              <li>se {@code vertexA} o {@code vertexB} non sono {@code GraphLibrary.Graph}</li>
+     *                              <li>se non esiste un {@code edge} tra i due nodi</li>
      *                              </ul>
      */
     public Edge<S,T> removeEdge(T vertexA, T vertexB) throws NullPointerException, GraphException {
@@ -368,10 +356,10 @@ public class Graph<T, S> {
             throw new NullPointerException("removeEdge(vertexA, vertexB): vertexB must not be null");
 
         if (!vertices.containsKey(vertexA))
-            throw new GraphException("There is no vertexA:" + vertexA + " in the Graph");
+            throw new GraphException("There is no vertexA:" + vertexA + " in the GraphLibrary.Graph");
 
         if (!vertices.containsKey(vertexB))
-            throw new GraphException("There is no vertexB:" + vertexB + " in the Graph");
+            throw new GraphException("There is no vertexB:" + vertexB + " in the GraphLibrary.Graph");
 
         Vertex<T, S> firstVertex = vertices.get(vertexA);
 
@@ -379,7 +367,7 @@ public class Graph<T, S> {
 
         if (edgeRemoved == null)
             throw new GraphException(
-                    "There is no edge between vertexA:" + vertexA + " and vertexB:" + vertexB + " in the Graph");
+                    "There is no edge between vertexA:" + vertexA + " and vertexB:" + vertexB + " in the GraphLibrary.Graph");
 
         if (!isDirected()) {
             Vertex<T, S> secondVertex = vertices.get(vertexB);
@@ -387,7 +375,7 @@ public class Graph<T, S> {
             if (secondVertex.removeEdge(vertexA) == null)
                 throw new GraphException(
                         "There is no edge between vertexB:" + vertexB + " and vertexA:" + vertexA
-                                + " in the Graph");
+                                + " in the GraphLibrary.Graph");
         }
 
         return edgeRemoved;
@@ -403,3 +391,6 @@ public class Graph<T, S> {
         return s;
     }
 }
+
+
+

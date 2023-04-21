@@ -1,3 +1,5 @@
+package GraphLibrary;
+
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -10,7 +12,7 @@ public class Vertex<L, E> implements Comparable<Vertex<L, E>> {
     private Vertex<L, E> pi = null;
 
     /**
-     * Create a new {@code Vertex} with the given {@code label}
+     * Create a new {@code GraphLibrary.Vertex} with the given {@code label}
      */
     public Vertex(L label) {
         this.adjacentList = new Hashtable<>();
@@ -41,16 +43,16 @@ public class Vertex<L, E> implements Comparable<Vertex<L, E>> {
     }
 
     /**
-     * Set the {@code parent} {@code Vertex}
+     * Set the {@code parent} {@code GraphLibrary.Vertex}
      *
-     * @param pi {@code parent} {@code Vertex}
+     * @param pi {@code parent} {@code GraphLibrary.Vertex}
      */
     public void setPi(Vertex<L, E> pi) {
         this.pi = pi;
     }
 
     /**
-     * @return the {@code parent} {@code Vertex}
+     * @return the {@code parent} {@code GraphLibrary.Vertex}
      */
     public Vertex<L, E> getPi() {
         return pi;
@@ -93,11 +95,11 @@ public class Vertex<L, E> implements Comparable<Vertex<L, E>> {
 
     /**
      * Check if the given {@code vertexLabel} is an adjacent of the current
-     * {@code Vertex}
+     * {@code GraphLibrary.Vertex}
      *
      * @param vertexLabel label of the vertex to check if is adjacent
      * @return {@code TRUE} iff {@code vertexLabel} is an adjacent of the current
-     *         {@code Vertex}, {@code FALSE} otherwise
+     *         {@code GraphLibrary.Vertex}, {@code FALSE} otherwise
      * @throws NullPointerException iff {@code vertexLabel} is {@code null}
      */
     public boolean hasAdjacent(L vertexLabel) throws NullPointerException {
@@ -110,7 +112,7 @@ public class Vertex<L, E> implements Comparable<Vertex<L, E>> {
     /**
      * @param edge
      * @return {@code TRUE} iff {@code edge} is an {@link Edge} of the current
-     *         {@code Vertex}, {@code FALSE} otherwise
+     *         {@code GraphLibrary.Vertex}, {@code FALSE} otherwise
      * @throws NullPointerException iff {@code edge} is {@code null}
      */
     public boolean hasEdge(Edge<E,L> edge) throws NullPointerException {
@@ -141,7 +143,7 @@ public class Vertex<L, E> implements Comparable<Vertex<L, E>> {
 
     /**
      * @param adjacentLabel
-     * @return the {@code Edge} on success, {@code null} otherwise
+     * @return the {@code GraphLibrary.Edge} on success, {@code null} otherwise
      * @throws NullPointerException iff {@code adjacentLabel} is {@code null}
      * @see Edge
      */

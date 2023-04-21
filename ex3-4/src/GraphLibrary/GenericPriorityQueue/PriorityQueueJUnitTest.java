@@ -1,3 +1,5 @@
+package GraphLibrary.GenericPriorityQueue;
+
 import org.junit.runner.*;
 
 public class PriorityQueueJUnitTest {

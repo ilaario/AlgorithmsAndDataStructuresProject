@@ -1,10 +1,12 @@
+package GraphLibrary;
+
 public class Edge<E, L> {
 
     private E label = null;
     private double weight = 0;
 
     /**
-     * Init an {@code Edge} with the given {@code label}
+     * Init an {@code GraphLibrary.Edge} with the given {@code label}
      *
      * @param label name of the edge
      */

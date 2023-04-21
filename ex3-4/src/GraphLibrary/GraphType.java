@@ -1,3 +1,5 @@
+package GraphLibrary;
+
 /**
  * {@code Enum} that store all the supported types of {@code Graphs}
  */

@@ -1,3 +1,9 @@
+package Prim;
+
+import GraphLibrary.*;
+import GraphLibrary.GenericPriorityQueue.GenericComparator;
+import GraphLibrary.GenericPriorityQueue.GenericPriorityQueue;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,7 +27,7 @@ public class Prim<L extends Comparable<L>, E extends Comparable<E>> {
         Set<Vertex<L, E>> result = new HashSet<>();
         Vertex<L, E> startVertex = graph.getVertex(start);
         if (startVertex == null) {
-            throw new GraphException("Vertex not found");
+            throw new GraphException("GraphLibrary.Vertex not found");
         }
         for (Vertex<L, E> vertex : graph.getVertices()) {
             vertex.setDistance(Double.POSITIVE_INFINITY);

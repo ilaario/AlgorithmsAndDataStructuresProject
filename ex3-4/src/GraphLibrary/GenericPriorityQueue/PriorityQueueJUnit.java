@@ -1,9 +1,13 @@
+package GraphLibrary.GenericPriorityQueue;
+
 import java.util.Comparator;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,27 +38,27 @@ public class PriorityQueueJUnit {
 
     @Test
     public void testSizeZeroEl() throws Exception{
-        assertEquals(0,PriorityQueue.size());
+        Assert.assertEquals(0,PriorityQueue.size());
     }
 
     @Test
     public void testSizeOneEl() throws Exception{
         PriorityQueue.push(i1);
-        assertEquals(1,PriorityQueue.size());
+        Assert.assertEquals(1,PriorityQueue.size());
     }
 
     @Test
     public void testSizeTwoEl() throws Exception{
         PriorityQueue.push(i1);
         PriorityQueue.push(i2);
-        assertEquals(2,PriorityQueue.size());
+        Assert.assertEquals(2,PriorityQueue.size());
     }
 
     @Test
     //It directly accesses the OrderedArray instance variable orderedArray.array
     public void testAddOneEl() throws Exception{
         PriorityQueue.push(i1);
-        assertEquals(i1, PriorityQueue.top());
+        Assert.assertEquals(i1, PriorityQueue.top());
     }
 
     @Test
@@ -64,7 +68,7 @@ public class PriorityQueueJUnit {
         PriorityQueue.push(i1);
         PriorityQueue.push(i2);
         PriorityQueue.push(i3);
-        assertArrayEquals(expectedArray, PriorityQueue.toArray());
+        Assert.assertArrayEquals(expectedArray, PriorityQueue.toArray());
     }
 
     @Test
@@ -74,7 +78,7 @@ public class PriorityQueueJUnit {
         PriorityQueue.push(i2);
         PriorityQueue.push(i2);
         PriorityQueue.push(i3);
-        assertArrayEquals(expectedArray, PriorityQueue.toArray());
+        Assert.assertArrayEquals(expectedArray, PriorityQueue.toArray());
     }
 
     @Test
@@ -84,13 +88,13 @@ public class PriorityQueueJUnit {
         PriorityQueue.push(i2);
         PriorityQueue.push(i2);
         PriorityQueue.push(i2);
-        assertArrayEquals(expectedArray, PriorityQueue.toArray());
+        Assert.assertArrayEquals(expectedArray, PriorityQueue.toArray());
     }
 
     @Test
     public void testAddGetOneEl() throws Exception{
         PriorityQueue.push(i1);
-        assertEquals(i1,PriorityQueue.top());
+        Assert.assertEquals(i1,PriorityQueue.top());
     }
 
     @Test
@@ -98,7 +102,7 @@ public class PriorityQueueJUnit {
         PriorityQueue.push(i2);
         PriorityQueue.push(i1);
         PriorityQueue.push(i3);
-        assertEquals(i1,PriorityQueue.top());
+        Assert.assertEquals(i1,PriorityQueue.top());
     }
 
     @Test
@@ -107,7 +111,7 @@ public class PriorityQueueJUnit {
         PriorityQueue.push(i1);
         PriorityQueue.push(i3);
         PriorityQueue.pop();
-        assertEquals(i2,PriorityQueue.top());
+        Assert.assertEquals(i2,PriorityQueue.top());
     }
 
     @Test
@@ -117,7 +121,7 @@ public class PriorityQueueJUnit {
         PriorityQueue.push(i3);
         PriorityQueue.pop();
         PriorityQueue.pop();
-        assertEquals(i3,PriorityQueue.top());
+        Assert.assertEquals(i3,PriorityQueue.top());
     }
 
 }

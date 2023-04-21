@@ -1,3 +1,5 @@
+package GraphLibrary.GenericPriorityQueue;
+
 import java.util.Comparator;
 
 public class PriorityQueueTest {
