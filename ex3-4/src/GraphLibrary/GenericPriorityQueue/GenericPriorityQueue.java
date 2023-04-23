@@ -1,16 +1,17 @@
 package GraphLibrary.GenericPriorityQueue;
 
-import GraphLibrary.Vertex;
+import GraphLibrary.GenericComparator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Set;
 
 public class GenericPriorityQueue<E extends Comparable<? super E>> implements AbstractQueue<E> {
     private ArrayList<E> heap;
     private int size;
     private Comparator<E> comparator;
 
-    public GenericPriorityQueue(Comparator<E> comparator) {
+    public GenericPriorityQueue(Comparator comparator) {
         this.heap = new ArrayList<E>(10);
         this.size = 0;
         this.comparator = comparator;
@@ -100,6 +101,15 @@ public class GenericPriorityQueue<E extends Comparable<? super E>> implements Ab
 
     public boolean contains(E v) {
         return heap.contains(v);
+    }
+
+    public void update(E v) {
+        siftUp(heap.indexOf(v));
+        siftDown(heap.indexOf(v));
+    }
+
+    public int indexOf(E u) {
+        return heap.indexOf(u);
     }
 }
 

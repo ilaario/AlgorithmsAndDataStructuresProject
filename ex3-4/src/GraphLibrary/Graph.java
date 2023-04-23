@@ -1,6 +1,6 @@
 package GraphLibrary;
 
-import java.util.HashSet;
+/*import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -11,35 +11,35 @@ public class Graph<T, S> {
 
     /**
      * Creazione di un {@code grafo} vuoto – O(1)
-     */
+
     public Graph() {
         this.vertices = new Hashtable<>();
     }
 
     /**
      * @return the {@code type} of the {@code GraphLibrary.Graph}
-     */
+
     public GraphType getType() {
         return this.type;
     }
 
     /**
      * Verifica se il {@code grafo} è {@code diretto} – O(1)
-     */
+
     public boolean isDirected() {
         return this.type == GraphType.DIRECTED;
     }
 
     /**
      * Determinazione del numero di {@code nodi} – O(1)
-     */
+
     public int getNumberVertices() {
         return this.vertices.size();
     }
 
     /**
      * Determinazione del numero di {@code archi} – O(n)
-     */
+
     public int getNumberEdges() {
         int sum = 0;
 
@@ -58,7 +58,7 @@ public class Graph<T, S> {
      *         a vertex with the same {@code vertexLabel}
      * @throws NullPointerException se {@code vertexLabel} è {@code null}
      * @see Vertex
-     */
+
     public boolean addVertex(T vertexLabel) throws NullPointerException {
         if (vertexLabel == null)
             throw new NullPointerException("addVertex(vertexLabel): vertexLabel must not be null");
@@ -74,7 +74,7 @@ public class Graph<T, S> {
      * @return Il {@code GraphLibrary.Vertex} con la {@code vertexLabel}, {@code null} se non esiste
      * @throws NullPointerException se {@code vertexLabel} è {@code null}
      * @see Vertex
-     */
+
     public Vertex<T, S> getVertex(T vertexLabel) throws NullPointerException {
         if (vertexLabel == null)
             throw new NullPointerException("getVertex(vertexLabel): vertexLabel must not be null");
@@ -89,7 +89,7 @@ public class Graph<T, S> {
      * @return {@code TRUE} se {@code vertexLabel} è contenuta nel
      *         {@code GraphLibrary.Graph}, altrimenti {@code FALSE}
      * @throws NullPointerException se {@code vertexLabel} è {@code null}
-     */
+
     public boolean containsVertex(T vertexLabel) throws NullPointerException {
         if (vertexLabel == null)
             throw new NullPointerException("containsVertex(vertexLabel): vertexLabel must not be null");
@@ -111,7 +111,7 @@ public class Graph<T, S> {
      *                              {@code vertexA} o con la label {@code vertexB}
      *                              in cui cercare </li>
      *                              </ul>
-     */
+
     public boolean containsEdge(T vertexA, T vertexB) throws NullPointerException {
         if (vertexA == null)
             throw new NullPointerException("containsEdge(vertexA, vertexB): vertexA must not be null");
@@ -127,7 +127,7 @@ public class Graph<T, S> {
 
     /**
      * @return a new {@link Set} of vertices label
-     */
+
     public Set<T> getVerticesLabel() {
         Set<T> verts = new HashSet<>();
         for (T a : vertices.keySet()) {
@@ -141,7 +141,7 @@ public class Graph<T, S> {
      *
      * @return un nuovo {@link Set} di {@code GraphLibrary.Vertex}
      * @see Vertex
-     */
+
     public Set<Vertex<T, S>> getVertices() {
         Set<Vertex<T, S>> vertices = new HashSet<>();
         for (T vLabel : getVerticesLabel()) {
@@ -155,7 +155,7 @@ public class Graph<T, S> {
      *
      * @return un nuovo {@code Set} di {@code GraphLibrary.Edge}
      * @see Edge
-     */
+
     public Set<Edge<S,T>> getEdges() {
         Set<Edge<S,T>> edges = new HashSet<>();
 
@@ -173,7 +173,7 @@ public class Graph<T, S> {
      * @param vertexLabel da rimuovere
      * @return il {@code GraphLibrary.Vertex} rimosso con la label
      * @throws NullPointerException se {@code vertexLabel} è {@code null}
-     */
+
     public Vertex<T, S> removeVertex(T vertexLabel) throws NullPointerException {
         if (vertexLabel == null)
             throw new NullPointerException("removeVertex(vertexLabel): vertexLabel must not be null");
@@ -199,7 +199,7 @@ public class Graph<T, S> {
      * @param vertexLabel il nodo di cui si vogliono conoscere gli adiacenti
      * @return un {@link Set} di vertexLabel adiacenti al {@code vertexLabel}
      * @throws NullPointerException se {@code vertexLabel} è {@code null}
-     */
+
     public Set<T> getAdjacentVerticesLabel(T vertexLabel) throws NullPointerException, GraphException {
         if (vertexLabel == null)
             throw new NullPointerException("getAdjacentVerticesLabel(vertexLabel): vertexLabel must not be null");
@@ -217,7 +217,7 @@ public class Graph<T, S> {
      * @param vertexLabel il nodo di cui si vogliono conoscere gli adiacenti
      * @return un {@link Set} di nodi adiacenti al {@code vertexLabel}
      * @throws NullPointerException se {@code vertexLabel} è {@code null}
-     */
+
     public Set<Vertex<T, S>> getAdjacentVertices(T vertexLabel) throws NullPointerException, GraphException {
         if (vertexLabel == null)
             throw new NullPointerException("getAdjacentVertices(vertexLabel): vertexLabel must not be null");
@@ -242,7 +242,7 @@ public class Graph<T, S> {
      * @return {@code TRUE} se i due nodi sono adiacenti, altrimenti {@code FALSE}
      * @throws NullPointerException se {@code vertexFrom} O {@code vertexTo} sono
      *                              {@code null}
-     */
+
     public boolean areAdjacents(T vertexFrom, T vertexTo) throws NullPointerException {
         if (vertexFrom == null)
             throw new NullPointerException("areAdjacents(vertexFrom, vertexTo): vertexFrom must not be null");
@@ -271,7 +271,7 @@ public class Graph<T, S> {
      *
      * @throws NullPointerException se {@code vertexA} O {@code vertexB} sono
      *                              {@code null}
-     */
+
     public boolean areCompleteAdjacents(T vertexA, T vertexB) {
         return areAdjacents(vertexA, vertexB) && areAdjacents(vertexB, vertexA);
     }
@@ -283,7 +283,7 @@ public class Graph<T, S> {
      *         success, {@code null} otherwise
      * @throws NullPointerException iff {@code vertexFrom} OR {@code vertexTo} are
      *                              {@code null}
-     */
+
     public Edge<S,T> getEdge(T vertexFrom, T vertexTo) throws NullPointerException {
         if (vertexFrom == null)
             throw new NullPointerException("getEdge(vertexFrom, vertexTo): vertexFrom must not be null");
@@ -308,7 +308,7 @@ public class Graph<T, S> {
      *                              {@code edgeLabel} sono {@code null}
      * @throws GraphException       se {@code vertexFrom} O {@code vertexTo}
      *                              non sono nel {@code GraphLibrary.Graph}
-     */
+
     public void addEdge(T vertexFrom, T vertexTo, S edgeLabel) throws NullPointerException, GraphException {
         if (vertexFrom == null)
             throw new NullPointerException("addEdge(vertexFrom, vertexTo, edgeLabel): vertexFrom must not be null");
@@ -347,7 +347,7 @@ public class Graph<T, S> {
      *                              <li>se {@code vertexA} o {@code vertexB} non sono {@code GraphLibrary.Graph}</li>
      *                              <li>se non esiste un {@code edge} tra i due nodi</li>
      *                              </ul>
-     */
+
     public Edge<S,T> removeEdge(T vertexA, T vertexB) throws NullPointerException, GraphException {
         if (vertexA == null)
             throw new NullPointerException("removeEdge(vertexA, vertexB): vertexA must not be null");
@@ -394,3 +394,231 @@ public class Graph<T, S> {
 
 
 
+*/
+
+
+
+import java.util.*;
+
+public abstract class Graph<T> {
+    protected Map<Node<T>, Map<Node<T>, Double>> nodes;
+    private int controlNodeSize;
+    private int controlEdgeSize;
+    private Set<Edge<T>> controlEdgeSet;
+
+    // Empty Graph constructor
+    public Graph() {
+        this.nodes = new HashMap<>();
+        this.controlNodeSize = -1;
+        this.controlEdgeSize = -1;
+        this.controlEdgeSet = null;
+    }
+
+    // Graph with edges constructor
+    public Graph(Set<Edge<T>> edgeSet) {
+        this();
+        if (edgeSet == null)
+            return;
+
+        for (Edge<T> e : edgeSet) {
+            Node<T> src = e.getSource();
+            Node<T> dest = e.getDestination();
+            this.addNode(src);
+            this.addNode(dest);
+            this.addEdge(src, dest, e.getWeight());
+        }
+    }
+
+    // Checks if this is a directed graph
+    public boolean isDirected() {
+        return true;
+    }
+
+    // Returns a set of nodes
+    public Set<Node<T>> getNodes() {
+        if (nodes.size() == 0)
+            return null;
+        return nodes.keySet();
+    }
+
+    // Returns Graph edges
+    public Set<Edge<T>> getEdges() {
+        if (nodes.size() == 0)
+            return null;
+        if (this.controlEdgeSet != null)
+            return this.controlEdgeSet;
+
+        this.controlEdgeSet = new TreeSet<>();
+        for (Map.Entry<Node<T>, Map<Node<T>, Double>> node : nodes.entrySet()) {
+            for (Map.Entry<Node<T>, Double> edge : node.getValue().entrySet()) {
+                this.controlEdgeSet.add(new Edge<>(node.getKey(), edge.getKey(), edge.getValue()));
+            }
+        }
+        return this.controlEdgeSet;
+    }
+
+    // Returns amount of nodes
+    public int getNodeSize() {
+        if (this.controlNodeSize > -1)
+            return this.controlNodeSize;
+        return this.controlNodeSize = nodes.size();
+    }
+
+    // Returns amount of edges
+    public int getEdgeSize() {
+        if (this.controlEdgeSize > -1)
+            return this.controlEdgeSize;
+
+        this.controlEdgeSize = 0;
+        for (Map.Entry<Node<T>, Map<Node<T>, Double>> node : nodes.entrySet()) {
+            this.controlEdgeSize += node.getValue().size();
+        }
+
+        return this.controlEdgeSize;
+    }// Return adjent nodes
+    public Set<Node<T>> getAdjentNodes(Node<T> value) {
+        if (nodes.size() == 0)
+            return null;
+
+        Set<Node<T>> adjentNodes = new HashSet<>();
+        Map<Node<T>, Double> srcNode = nodes.get(value);
+        if (srcNode == null)
+            return null;
+
+        for (Map.Entry<Node<T>, Double> edge : srcNode.entrySet())
+            adjentNodes.add(edge.getKey());
+        return adjentNodes;
+    }
+
+    // Get the edge weight of a graph
+    public double getEdgeWeight(Node<T> src, Node<T> dest) {
+        if (nodes.containsKey(src)) {
+            Map<Node<T>, Double> edges = nodes.get(src);
+            if (edges.containsKey(dest)) {
+                return edges.get(dest);
+            }
+        }
+        return -1.0;
+    }
+
+    // addNode overload
+    public boolean addNode(T value) {
+        return this.addNode(new Node<>(value));
+    }
+
+    // Add a node to the graph
+    private boolean addNode(Node<T> value) {
+        if (value == null || value.getValue() == null)
+            return false;
+        this.controlNodeSize = -1;
+        return nodes.putIfAbsent(value, new HashMap<>()) == null;
+    }
+
+    // addEdge overload
+    public boolean addEdge(Edge<T> edge) {
+        if (edge == null)
+            return false;
+        return this.addEdge(edge.getSource(), edge.getDestination(), edge.getWeight());
+    }
+
+    // addEdge overload
+    public boolean addEdge(T src, T dest, int weight) {
+        return this.addEdge(new Node<>(src), new Node<>(dest), weight);
+    }
+
+    // addEdge overload
+    public boolean addEdge(Node<T> src, Node<T> dest, int weight) {
+        return this.addEdge(src, dest, weight);
+    }
+
+    // addEdge overload
+    public boolean addEdge(T src, T dest, double weight) {
+        return this.addEdge(new Node<>(src), new Node<>(dest), weight);
+    }
+
+    // Adds a node to the graph and returns true if successful
+    public boolean addEdge(Node<T> src, Node<T> dest, double weight) {
+        if (src == null || src.getValue() == null)
+            return false;
+        if (dest == null || dest.getValue() == null)
+            return false;
+
+        this.controlEdgeSize = -1;
+        this.controlEdgeSet = null;
+
+        if (nodes.containsKey(src) && nodes.containsKey(dest)) {
+            return nodes.get(src).putIfAbsent(dest, weight) == null;
+        }
+        return false;
+    }
+
+    // containsNode overload
+    public boolean containsNode(T value) {
+        return nodes.containsKey(new Node<>(value));
+    }
+
+    // Checks if a value is in the hash map
+    public boolean containsNode(Node<T> value) {
+        return nodes.containsKey(value);
+    }
+
+    // containsEdge overload
+    public boolean containsEdge(T src, T dest) {
+        return this.containsEdge(new Node<>(src), new Node<>(dest));
+    }
+
+    // Returns true if the edge is in the hash map
+    private boolean containsEdge(Node<T> src, Node<T> dest) {
+        if (nodes.containsKey(src) && nodes.containsKey(dest)) {
+            return nodes.get(src).containsKey(dest);
+        }
+        return false;
+    }
+
+    // removeNode overload
+    public boolean removeNode(T value) {
+        return this.removeNode(new Node<>(value));
+    }
+
+    // Removes a node and returns true if successful
+    public boolean removeNode(Node<T> value) {
+        if (value == null || value.getValue() == null)
+            return false;
+        this.controlNodeSize = -1;
+
+        for (Map.Entry<Node<T>, Map<Node<T>, Double>> node : nodes.entrySet()) {
+            if (node.getKey().equals(value))
+                continue;
+            node.getValue().remove(value);
+        }
+        return nodes.remove(value) != null;
+    }
+
+    // removeEdge overload
+    public boolean removeEdge(Edge<T> edge) {
+        if (edge == null)
+            return false;
+        return this.removeEdge(edge.getSource(), edge.getDestination());
+    }
+
+    // removeEdge overload
+    public boolean removeEdge(T src, T dest) {
+        return this.removeEdge(new Node<>(src), new Node<>(dest));
+    }
+
+    // Remove an edge between two nodes and returns true when successful
+    public boolean removeEdge(Node<T> src, Node<T> dest) {
+        if (src == null || src.getValue() == null)
+            return false;
+        if (dest == null || dest.getValue() == null)
+            return false;
+
+        this.controlEdgeSize = -1;
+        this.controlEdgeSet = null;
+
+        if (nodes.containsKey(src))
+            return nodes.get(src).remove(dest) != null;
+        return false;
+    }
+
+}
