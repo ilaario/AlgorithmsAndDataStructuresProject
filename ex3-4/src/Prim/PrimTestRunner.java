@@ -1,12 +1,12 @@
-package GraphLibrary.GenericPriorityQueue;
+package Prim;
 
 import org.junit.runner.*;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-public class PriorityQueueJUnitTest {
+public class PrimTestRunner {
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(PriorityQueueJUnit.class);
+        Result result = JUnitCore.runClasses(PrimTest.class);
 
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());

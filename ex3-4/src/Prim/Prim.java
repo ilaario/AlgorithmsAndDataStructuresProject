@@ -100,5 +100,12 @@ public class Prim<T> {
         return this.nodes.size();
     }
 
+    public int getEdgesCount() {
+        return (this.edges.size()/2);
+    }
+
+    public void removeEdge(Edge<T> stringEdge) {
+        this.edges.remove(stringEdge);
+    }
 }
 
