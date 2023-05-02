@@ -16,7 +16,7 @@ print_info(){
     printf "Please select a number from the Main Menu [1-3] or select 'Q' to quit.\n"
 }
 
-function pause(){
+pause(){
  read -s -n 1 -p "Press any key to continue..."
  echo ""
 }
