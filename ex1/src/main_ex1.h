@@ -17,7 +17,7 @@ struct record {
 
 unsigned int length_array;
 
-struct record* read_array(const char* file_path);
+struct record* read_array(FILE *fp);
 
 int compare_int(const void* r1_p,const void* r2_p);
 int compare_string(const void* r1_p,const void* r2_p);
@@ -26,7 +26,7 @@ int testCompareInt(const void *a, const void *b);
 
 int destroy_Rarr(struct record* ga); //remove the array
 
-static void print_array(struct record *a, const char* file_path);
+static void print_array(struct record *a, FILE* fp);
 
 void testPerf(const char *input);
 

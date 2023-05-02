@@ -24,8 +24,9 @@ public class readCSV {
 
             while ((line = br.readLine()) != null) {
                 String params[] = line.split(",");
-                Edge<String> edgeToAdd = new Edge<>(params[0], params[1], Double.parseDouble(params[2]));
-                retValue.add(edgeToAdd);
+                Edge<String> edgeToAdd1 = new Edge<>(params[0], params[1], Double.parseDouble(params[2]));
+                //System.out.println("Adding edge: " + edgeToAdd1);
+                retValue.add(edgeToAdd1);
             }
             System.out.println("Read from file " + fileName + " successfully");
         } catch (Exception e) {

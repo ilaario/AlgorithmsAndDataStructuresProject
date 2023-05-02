@@ -26,10 +26,11 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
     int low = 0, high = val_pos - 1, mid;
     while(low <= high){
         mid = low + (high - low) / 2;
-        if(compar(arr + (val_pos * size), arr + (mid * size)) == 0){
+        int cmp_result = compar(arr + (val_pos * size), arr + (mid * size));
+        if(cmp_result == 0){
             return mid + 1;
         }
-        else if(compar(arr + (val_pos * size), arr + (mid * size)) > 0){
+        else if(cmp_result > 0){
             low = mid + 1;
         }
         else{
@@ -40,9 +41,9 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
 }
 
 
+
 void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*)){
-    int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  //nitems = 13: 1 2 3 4 5 6 7 8 9 10 11 12 13
-    //creation of temp arrays
+    int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  
     void *left_arr = malloc(div_1 * size);
     void *right_arr = malloc(div_2 * size);
     

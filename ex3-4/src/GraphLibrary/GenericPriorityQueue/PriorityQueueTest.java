@@ -2,10 +2,16 @@ package GraphLibrary.GenericPriorityQueue;
 
 import java.util.Comparator;
 
-public class PriorityQueueTest {
+public class PriorityQueueTest  {
     public static void main(String[] args){
+        class IntegerComparator implements Comparator<Integer> {
+            @Override
+            public int compare(Integer i1, Integer i2) {
+                return i1.compareTo(i2);
+            }
+        }
         System.out.println("Inserimento valori int in pq");
-        GenericPriorityQueue<Integer> pq = new GenericPriorityQueue<Integer>(Comparator.naturalOrder());
+        GenericPriorityQueue<Integer> pq = new GenericPriorityQueue<Integer>(new IntegerComparator());
         pq.push(5);
         pq.push(3);
         pq.push(2);

@@ -34,7 +34,6 @@ struct Node* createNode(void *item, int level){
     node->size = level;
 
     return node;
-
 }
 
 int randomLevel() {
@@ -90,16 +89,15 @@ void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const
     list_tmp->max_level = 0;
     list_tmp->compare = compar;
     (*list) = list_tmp;
-
 }
 
 void clear_skiplist(struct SkipList **list){
     struct Node *temp;
     struct Node *n = (*list)->head;
     while(n != NULL) {
-        char *item = (char *)n->item;
+        //char *item = (char *)n->item;
         temp = n->next[0];
-        free(item);
+        //free(item);
         free(n->next);
         free(n);
         n = temp;
@@ -134,7 +132,6 @@ void insert_skiplist(struct SkipList *list, void *item){
             k++;
         }
     }
-    free(newNode);
 }
 
 

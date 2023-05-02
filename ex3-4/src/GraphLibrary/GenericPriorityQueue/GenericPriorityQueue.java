@@ -1,18 +1,15 @@
 package GraphLibrary.GenericPriorityQueue;
 
-import GraphLibrary.GenericComparator;
-
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Set;
 
-public class GenericPriorityQueue<E extends Comparable<? super E>> implements AbstractQueue<E> {
-    private ArrayList<E> heap;
+public class GenericPriorityQueue<E extends Comparable<E>> implements AbstractQueue<E> {
+    final private ArrayList<E> heap;
     private int size;
-    private Comparator<E> comparator;
+    final private Comparator<E> comparator;
 
-    public GenericPriorityQueue(Comparator comparator) {
-        this.heap = new ArrayList<E>(10);
+    public GenericPriorityQueue(Comparator<E> comparator) {
+        this.heap = new ArrayList<>(10);
         this.size = 0;
         this.comparator = comparator;
     }
@@ -39,8 +36,8 @@ public class GenericPriorityQueue<E extends Comparable<? super E>> implements Ab
         if (empty()) {
             return;
         }
-        size--;
-        heap.set(0, heap.get(size));
+
+        heap.set(0, heap.get(--size));
         heap.remove(size);
         siftDown(0);
     }
@@ -48,7 +45,7 @@ public class GenericPriorityQueue<E extends Comparable<? super E>> implements Ab
     private void siftUp(int i) {
         while (i > 0) {
             int parent = (i - 1) / 2;
-            if (compare(heap.get(i), heap.get(parent)) > 0) {
+            if (compare(heap.get(i), heap.get(parent)) < 0) {
                 swap(i, parent);
                 i = parent;
             } else {
@@ -62,10 +59,10 @@ public class GenericPriorityQueue<E extends Comparable<? super E>> implements Ab
             int left = 2 * i + 1;
             int right = 2 * i + 2;
             int max = i;
-            if (left < size && compare(heap.get(left), heap.get(max)) > 0) {
+            if (left < size && compare(heap.get(left), heap.get(max)) < 0) {
                 max = left;
             }
-            if (right < size && compare(heap.get(right), heap.get(max)) > 0) {
+            if (right < size && compare(heap.get(right), heap.get(max)) < 0) {
                 max = right;
             }
             if (max != i) {
@@ -78,11 +75,7 @@ public class GenericPriorityQueue<E extends Comparable<? super E>> implements Ab
     }
 
     private int compare(E o1, E o2) {
-        if (comparator != null) {
-            return comparator.compare(o1, o2);
-        } else {
-            return o1.compareTo(o2);
-        }
+        return comparator.compare(o1, o2);
     }
 
     private void swap(int i, int j) {
@@ -99,17 +92,13 @@ public class GenericPriorityQueue<E extends Comparable<? super E>> implements Ab
         return heap.toArray();
     }
 
-    public boolean contains(E v) {
-        return heap.contains(v);
-    }
-
-    public void update(E v) {
-        siftUp(heap.indexOf(v));
-        siftDown(heap.indexOf(v));
-    }
-
-    public int indexOf(E u) {
-        return heap.indexOf(u);
+    public GenericPriorityQueue<E> copy() {
+        GenericPriorityQueue<E> queue = new GenericPriorityQueue<>(comparator);
+        for (int i = 0; i < size; i++) {
+            queue.heap.add(heap.get(i));
+        }
+        queue.size = size;
+        return queue;
     }
 }
 

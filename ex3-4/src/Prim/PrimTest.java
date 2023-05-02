@@ -17,6 +17,7 @@ import org.junit.Test;
 public class PrimTest {
     private Graph<String> graph;
     private Set<Edge<String>> edges;
+    private String start = "a";
     @Before
     public void createGraph(){
         edges = new readCSV("/Users/ilaario/Desktop/Progetti/laboratorio-algoritmi-2022-2023/ex3-4/input/test.csv").getEdges();
@@ -26,7 +27,7 @@ public class PrimTest {
     @Test
     public void testPrim(){
         Prim<String> prim = new Prim<>(graph);
-        prim.run();
+        prim.run(this.start);
         assertEquals(37.0, prim.getResultWeight(), 0.0);
     }
 
@@ -41,7 +42,7 @@ public class PrimTest {
     public void removeTest(){
         graph.removeEdge(new Edge<>("a", "b", 4.0));
         Prim<String> prim = new Prim<>(graph);
-        prim.run();
+        prim.run(start);
         assertEquals(41.0, prim.getResultWeight(), 0.0);
     }
 }

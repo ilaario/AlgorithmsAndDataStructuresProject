@@ -19,4 +19,3 @@ run_unity:
 
 clear:
 	rm -rf build
-	clear

@@ -6,6 +6,8 @@
 *.txt
 *.iml
 *.xml
+*.run.xml
+*.class
 
 # Ignore node_modules directory
 ex1/build/
@@ -14,7 +16,9 @@ ex1/output/
 ex2/build/
 ex2/input/
 ex2/output/
-ex3-4/build/
+ex3-4/classes/
+ex3-4/input/
+
 .vscode/
 .idea/
 out/

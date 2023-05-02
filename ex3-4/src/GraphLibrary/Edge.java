@@ -30,6 +30,12 @@ public class Edge<T> implements Comparable<Edge<T>> {
         this.weight = weight;
     }
 
+    public Edge(Node<T> tNode, Node<T> node) {
+        this.src = tNode;
+        this.dest = node;
+        this.weight = 0;
+    }
+
     // Returns node source
     public Node<T> getSource() {
         return this.src;
