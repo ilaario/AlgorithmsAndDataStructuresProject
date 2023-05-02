@@ -42,6 +42,20 @@ public class GenericPriorityQueue<E extends Comparable<E>> implements AbstractQu
         siftDown(0);
     }
 
+    public boolean contains(E v) {
+        return heap.contains(v);
+    }
+
+    public void update(E oldElem, E newElem){
+        int index = heap.indexOf(oldElem);
+        if (index != -1) {
+            heap.set(index, newElem);
+            siftUp(index);
+            siftDown(index);
+        }
+    }
+
+
     private void siftUp(int i) {
         while (i > 0) {
             int parent = (i - 1) / 2;
@@ -91,6 +105,7 @@ public class GenericPriorityQueue<E extends Comparable<E>> implements AbstractQu
     public Object[] toArray() {
         return heap.toArray();
     }
+
 
     public GenericPriorityQueue<E> copy() {
         GenericPriorityQueue<E> queue = new GenericPriorityQueue<>(comparator);
