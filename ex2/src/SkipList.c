@@ -36,14 +36,15 @@ struct Node* createNode(void *item, int level){
     return node;
 }
 
-int randomLevel() {
-    int lvl = 1;
-    int r = ( random() % MAX_HEIGHT );
-    while (r < (MAX_HEIGHT/2) && lvl < MAX_HEIGHT) {
-        lvl++;
-        r = ( random() % MAX_HEIGHT );
+int randomLevel(){
+    int level = 1;
+    struct timespec nstime;
+    clock_gettime(CLOCK_MONOTONIC, &nstime);
+    srand((unsigned int) (nstime.tv_nsec));
+    while ((rand() % 100) < 50 && level < MAX_HEIGHT) {
+        level++;
     }
-    return lvl;
+    return level;
 }
 
 static void adapt_head_size(struct SkipList *list, int newSize) {
