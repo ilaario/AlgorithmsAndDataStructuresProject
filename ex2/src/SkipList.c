@@ -48,13 +48,10 @@ int randomLevel(){
 }
 
 static void adapt_head_size(struct SkipList *list, int newSize) {
-    /* A new node is created and it will become the head of the skiplist; 
-     * the node is created with an updated size */
     struct Node *newHead = createNode("head", newSize);
     struct Node *prevHead;
     int k = 0;
 
-    /* Adapting the pointers to the following elements in the skiplist */
     while(k < newSize) {
         if(k < list->max_level) {
             newHead->next[k] = (list->head)->next[k];
@@ -96,9 +93,7 @@ void clear_skiplist(struct SkipList **list){
     struct Node *temp;
     struct Node *n = (*list)->head;
     while(n != NULL) {
-        //char *item = (char *)n->item;
         temp = n->next[0];
-        //free(item);
         free(n->next);
         free(n);
         n = temp;
@@ -159,14 +154,4 @@ const void* search_skiplist(struct SkipList *list, void *item){
     else
         return NULL;
 }
-/*
-static void print_skip_list(struct SkipList* list) {
-    struct Node* x = list->head;
-    for (int i = 0; i < list->max_level; i++) {
-        while (x != NULL && x->next[i] != NULL) {
-            printf("[%s]->", (char*)(x->next[i]->item));
-            x = x->next[i];
-        }
-        printf("NIL\n");
-    }
-} */
+

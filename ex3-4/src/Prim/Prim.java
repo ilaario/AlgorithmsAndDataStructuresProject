@@ -1,245 +1,102 @@
-/* package Prim;
-
-import GraphLibrary.*;
-import GraphLibrary.GenericPriorityQueue.GenericPriorityQueue;
-
-import java.util.*;
-
-public class Prim<T> {
-    private Graph<T> graph;
-    private HashMap<Edge<T>, Double> edges;
-    private Set<Node<T>> nodes;
-
-    private Set<Edge<T>> mst;
-    private HashMap<Node<T>, Node<T>> parent;
-    private HashMap<Node<T>, Boolean> visited;
-    private HashMap<Node<T>, Double> distance;
-    private double result;
-
-    public Prim(Graph<T> graph) {
-        this(graph.getNodes(), graph.getEdges());
-        this.graph = graph;
-    }
-
-    public Prim(Set<Node<T>> nodes, Set<Edge<T>> edges) {
-        this.edges = new HashMap<>();
-        for (Edge<T> e : edges) {
-            this.edges.put(e, e.getWeight());
-        }
-        this.nodes = nodes;
-        this.mst = new HashSet<>();
-        this.parent = new HashMap<>();
-        this.visited = new HashMap<>();
-        this.distance = new HashMap<>();
-        for (Node<T> n : nodes) {
-            this.distance.put(n, Double.MAX_VALUE);
-        }
-        this.result = 0;
-    }
-
-    public void run(String start) {
-        Comparator<Node<T>> comparator = new Comparator<Node<T>>() {
-            @Override
-            public int compare(Node<T> o1, Node<T> o2) {
-                double d1 = o1.getDistance();
-                double d2 = o2.getDistance();
-                if (Double.compare(d1,d2) > 0) {
-                    //System.out.println("o1: " + o1 + " - " + d1 + " > o2: " + o2 + " - " + d2);
-                    return 1;
-                } else if (Double.compare(d1,d2) < 0) {
-                    //System.out.println("o1: " + o1 + " - " + d1 + " < o2: " + o2 + " - " + d2);
-                    return -1;
-                } else {
-                    //System.out.println("o1: " + o1 + " - " + d1 + " = o2: " + o2 + " - " + d2);
-                    //return (o1.getValue().toString().compareTo(o2.getValue().toString()));
-                    return Long.compare(o1.getId(), o2.getId());
-                }
-            }
-        };
-        GenericPriorityQueue<Node<T>> queue = new GenericPriorityQueue<>(comparator);
-        for (Node<T> node : nodes) {
-            if (node.getValue().toString().equals(start)) {
-                node.setDistance(0.0);
-                distance.put(node, 0.0);
-                parent.put(node, null);
-                queue.push(node);
-            } else {
-                node.setDistance(Double.POSITIVE_INFINITY);
-                distance.put(node, Double.POSITIVE_INFINITY);
-                parent.put(node, null);
-                queue.push(node);
-            }
-
-        }
-
-        while (!queue.empty()) {
-            Node<T> u = queue.top();
-            queue.pop();
-            visited.put(u, true);
-            for (Node<T> node: graph.getAdjentNodes(u)) {
-                if (queue.contains(node)) {
-                    if (visited.get(node) == null || !visited.get(node)) {
-                        double weight = graph.getEdgeWeight(u, node);
-                        if (weight < distance.get(node)) {
-                            Node <T> oldNode = node;
-                            distance.put(node, weight);
-                            parent.put(node, u);
-                            queue.update(oldNode, node);
-                        }
-                    }
-                }
-            }
-        }
-        for (Node<T> node : nodes) {
-            if (parent.get(node) != null) {
-                mst.add(new Edge<>(parent.get(node), node, graph.getEdgeWeight(parent.get(node), node)));
-                result += graph.getEdgeWeight(parent.get(node), node);
-            }
-        }
-    }
-
-    // Returns the weight of the minimum spanning tree
-    public double getResultWeight() {
-        return this.result;
-    }
-
-    // Returns the edges' set of the minimum spanning tree
-    public Set<Edge<T>> getMinResultEdges() {
-        return this.mst;
-    }
-
-    public int getMSTEdgesCount() {
-        return this.mst.size();
-    }
-
-    // Returns the size of the nodes set
-    public int getNodesCount() {
-        return this.nodes.size();
-    }
-
-    public void printMST() {
-        for (Edge<T> edge : mst) {
-            System.out.println(edge);
-        }
-    }
-
-    public int getEdgesCount() {
-        return (this.edges.size()/2);
-    }
-} */
-
 package Prim;
 
-import GraphLibrary.*;
-import GraphLibrary.GenericPriorityQueue.GenericPriorityQueue;
+import GenericPriorityQueue.*;
+import Graph.*;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.*;
 
-public class Prim<T> {
-    private Graph<T> graph;
-    private Set<Edge<T>> edges;
-    private Set<Node<T>> nodes;
+public class Prim {
 
-    private Set<Edge<T>> mst;
-    private HashMap<Node<T>, Node<T>> parent;
-    private HashMap<Node<T>, Double> distance;
-    private HashMap<Node<T>, Boolean> visited;
-    private double result;
+    public static Graph<String, Double> readCSV(String fileName, boolean directed, boolean labelled) {
+        Graph<String, Double> graph = new Graph<String, Double>(false, true);
 
-    public Prim(Graph<T> graph) {
-        this(graph.getNodes(), graph.getEdges());
-        this.graph = graph;
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                String start = data[0];
+                String end = data[1];
+                Double label = Double.parseDouble(data[2]);
+                graph.addEdge(start, end, label);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return graph;
     }
 
-    public Prim(Set<Node<T>> nodes, Set<Edge<T>> edges) {
-        this.edges = edges;
-        this.nodes = nodes;
-        this.mst = new HashSet<>();
-        this.parent = new HashMap<>();
-        this.distance = new HashMap<>();
-        this.visited = new HashMap<>();
-        this.result = 0;
-    }
+    public static Graph<String, Double> prim(Graph<String, Double> graph) {
+        if (!graph.isLabelled()) throw new RuntimeException("Prim's algorithm can't be applied to unlabelled graphs");
+        if (graph.isDirected()) throw new RuntimeException("Prim's algorithm can't be applied to oriented graphs");
+        if (graph.numNodes() < 3) return graph;
 
-    public void run(String start) {
-        Comparator<Node<T>> comparator = new Comparator<Node<T>>() {
+        record Node (String start, String end, double priority) implements Comparable<Node> {
             @Override
-            public int compare(Node<T> o1, Node<T> o2) {
-                if (distance.get(o1) > distance.get(o2)) {
-                    return 1;
-                } else if (distance.get(o1) < distance.get(o2)) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+            public int hashCode() {
+                return end.hashCode();
             }
-        };
-        GenericPriorityQueue<Node<T>> queue = new GenericPriorityQueue<>(comparator);
-        for (Node<T> node : nodes) {
-            if (node.getValue().toString().equals(start)) {
-                node.setDistance(0.0);
-                distance.put(node, 0.0);
-                parent.put(node, null);
-                queue.push(node);
-            } else {
-                node.setDistance(Double.POSITIVE_INFINITY);
-                distance.put(node, Double.POSITIVE_INFINITY);
-                parent.put(node, null);
-                queue.push(node);
+
+            @Override
+            public int compareTo(Node o) {
+                return Double.compare(priority, o.priority);
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof Node node)) return false;
+                return end.equals(node.end);
             }
         }
-;
 
-        while (!queue.empty()) {
-            Node<T> u = queue.top();
-            queue.pop();
-            visited.put(u, true);
-            for (Node<T> node: graph.getAdjentNodes(u)) {
-                if (queue.contains(node)) {
-                    if (visited.get(node) == null || !visited.get(node)) {
-                        double weight = graph.getEdgeWeight(u, node);
-                        if (weight < distance.get(node)) {
-                            Node <T> oldNode = node;
-                            distance.put(node, weight);
-                            parent.put(node, u);
-                            queue.update(oldNode, node);
-                        }
-                    }
-                }
+        Graph<String, Double> mst = new Graph<String, Double>(false, true);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+
+        graph.getNodes().forEach(node -> pq.push(new Node(null, node, Double.POSITIVE_INFINITY)));
+
+        while (!pq.empty()) {
+            Node node = pq.top();
+            pq.pop();
+            if (node.start != null){
+                mst.addEdge(node.start, node.end, node.priority);
+            } else mst.addNode(node.end);
+
+            if(pq.empty()) break;
+
+            for(String u : graph.getNeighbours(node.end)) {
+               if(!mst.containsNode(u) &&
+                       graph.getLabel(node.end, u) < pq.get(new Node(null, u, -1)).priority) {
+                    pq.increasePriority(new Node(null, u, -1), new Node(node.end, u, graph.getLabel(node.end, u)));
+               }
             }
         }
-        for (Node<T> node : nodes) {
-            if (parent.get(node) != null) {
-                mst.add(new Edge<>(parent.get(node), node, graph.getEdgeWeight(parent.get(node), node)));
-                result += graph.getEdgeWeight(parent.get(node), node);
-            }
+        return mst;
+    }
+
+    public static void main(String[] args) {
+        Graph<String, Double> graph = readCSV(args[0], false, true);
+        long start = System.nanoTime();
+        Graph<String, Double> mst = prim(graph);
+        long end = System.nanoTime();
+
+        double weight = 0;
+
+        for(AbstractEdge<String, Double> edge : mst.getEdges()) {
+            weight += edge.getLabel();
         }
-    }
 
-    // Returns the weight of the minimum spanning tree
-    public double getResultWeight() {
-        return this.result;
-    }
+        System.out.println("============= Graph Info ===============");
 
-    // Returns the edges' set of the minimum spanning tree
-    public Set<Edge<T>> getMinResultEdges() {
-        return this.mst;
-    }
+        System.out.println("Original graph nodes:   " + graph.getNodes().size());
+        System.out.println("Original graph edges:   " + graph.getEdges().size() / 2);
+        System.out.println("\n============ Prim Results ==============");
 
-    // Returns the size of the nodes set
-    public int getNodesCount() {
-        return this.nodes.size();
-    }
+        System.out.println("Prim's graph nodes:     " + mst.getNodes().size());
+        System.out.println("Prim's graph edges:     " + mst.getEdges().size() / 2);
+        System.out.printf("Prim's graph weight:    %5.3f\n", (weight / 2 / 1000));
+        System.out.println("Prim's graph time:      " + ((end - start) / 1000000) + "ms");
 
-    public int getEdgesCount() {
-        return (this.edges.size()/2);
-    }
-
-    public void removeEdge(Edge<T> stringEdge) {
-        this.edges.remove(stringEdge);
     }
 }
-

@@ -4,18 +4,9 @@
 
 #ifndef INITIAL_ARRAY_SIZE
 #define INITIAL_ARRAY_SIZE 10
-#define STOP_COUNT 20000000
 
 #include "ex1_sort.h"
-
-struct record {
-    int id;
-    char* str_f;
-    int int_f;
-    double float_f;
-};
-
-unsigned int length_array;
+#include "utilities.h"
 
 struct record* read_array(FILE *fp);
 
@@ -23,11 +14,6 @@ int compare_int(const void* r1_p,const void* r2_p);
 int compare_string(const void* r1_p,const void* r2_p);
 int compare_float(const void* r1_p,const void* r2_p);
 int testCompareInt(const void *a, const void *b);
-
-int destroy_Rarr(struct record* ga); //remove the array
-
-static void print_array(struct record *a, FILE* fp);
-
-void testPerf(const char *input);
+void testPerf(FILE *input);
 
 #endif

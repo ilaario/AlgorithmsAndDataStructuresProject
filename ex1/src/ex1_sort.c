@@ -1,26 +1,5 @@
 #include "ex1_sort.h"
 
-void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*)){
-    mergeSort(base, 0, nitems - 1, k, size, compar);
-    return;
-}
-
-void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
-    int i,j;
-    char *curr_val = malloc(size);
-    for(i = 0; i < nitems; i++){
-        j = i;
-        memcpy(curr_val, base + (i * size), size);
-        int pos = binary_search(base, size, compar, i);
-        while(j > pos){
-            memcpy(base + ((j) * size), base + ((j - 1) * size), size);
-            j--;
-        }
-        memcpy(base + ((pos) * size), curr_val, size);
-    }
-    free(curr_val);
-}
-
 static int binary_search(void *base, size_t size, int (*compar)(const void *, const void*), int val_pos){
     char *arr = (char *)base;
     int low = 0, high = val_pos - 1, mid;
@@ -40,9 +19,23 @@ static int binary_search(void *base, size_t size, int (*compar)(const void *, co
     return low;
 }
 
+static void insertionSort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)){
+    int i,j;
+    char *curr_val = malloc(size);
+    for(i = 0; i < nitems; i++){
+        j = i;
+        memcpy(curr_val, base + (i * size), size);
+        int pos = binary_search(base, size, compar, i);
+        while(j > pos){
+            memcpy(base + ((j) * size), base + ((j - 1) * size), size);
+            j--;
+        }
+        memcpy(base + ((pos) * size), curr_val, size);
+    }
+    free(curr_val);
+}
 
-
-void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*)){
+static void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(const void *, const void*)){
     int i,j,k, div_1 = mid-left+1, div_2 = right-mid;  
     void *left_arr = malloc(div_1 * size);
     void *right_arr = malloc(div_2 * size);
@@ -87,7 +80,7 @@ void merge(void *base, int left, int mid, int right, size_t size, int (*compar)(
     free(right_arr);
 }
 
-void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar)(const void *, const void*)){
+static void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar)(const void *, const void*)){
     if((right - left) <= k){
         insertionSort(base + (left * size), right - left + 1, size, compar);
         return;
@@ -97,4 +90,9 @@ void mergeSort(void *base, int left, int right, int k, size_t size, int (*compar
         mergeSort(base, mid + 1, right, k, size, compar);
         merge(base, left, mid, right, size, compar);
     }
+}
+
+void merge_binary_insertion_sort(void *base, size_t nitems, size_t size, size_t k, int (*compar)(const void *, const void*)){
+    mergeSort(base, 0, nitems - 1, k, size, compar);
+    return;
 }

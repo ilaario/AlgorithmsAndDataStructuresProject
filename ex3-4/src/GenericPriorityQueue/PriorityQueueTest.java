@@ -1,17 +1,11 @@
-package GraphLibrary.GenericPriorityQueue;
+package GenericPriorityQueue;
 
 import java.util.Comparator;
 
-public class PriorityQueueTest  {
+public class PriorityQueueTest{
     public static void main(String[] args){
-        class IntegerComparator implements Comparator<Integer> {
-            @Override
-            public int compare(Integer i1, Integer i2) {
-                return i1.compareTo(i2);
-            }
-        }
         System.out.println("Inserimento valori int in pq");
-        GenericPriorityQueue<Integer> pq = new GenericPriorityQueue<Integer>(new IntegerComparator());
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.naturalOrder());
         pq.push(5);
         pq.push(3);
         pq.push(2);
@@ -25,7 +19,7 @@ public class PriorityQueueTest  {
         System.out.println("\n");
 
         System.out.println("Inserimento valori int in pq2");
-        GenericPriorityQueue<Integer> pq2 = new GenericPriorityQueue<Integer>(Comparator.reverseOrder());
+        PriorityQueue<Integer> pq2 = new PriorityQueue<Integer>(Comparator.reverseOrder());
         pq2.push(5);
         pq2.push(3);
         pq2.push(2);
@@ -39,7 +33,7 @@ public class PriorityQueueTest  {
         System.out.println("\n");
 
         System.out.println("\nInserimento valori int in pq3");
-        GenericPriorityQueue<String> pq3 = new GenericPriorityQueue<String>(Comparator.naturalOrder());
+        PriorityQueue<String> pq3 = new PriorityQueue<String>(Comparator.naturalOrder());
         pq3.push("ciao");
         pq3.push("come");
         pq3.push("stai");
@@ -53,7 +47,7 @@ public class PriorityQueueTest  {
         System.out.println("\n");
 
         System.out.println("\nInserimento valori int in pq4");
-        GenericPriorityQueue<String> pq4 = new GenericPriorityQueue<String>(Comparator.reverseOrder());
+        PriorityQueue<String> pq4 = new PriorityQueue<String>(Comparator.reverseOrder());
         pq4.push("ciao");
         pq4.push("come");
         pq4.push("stai");

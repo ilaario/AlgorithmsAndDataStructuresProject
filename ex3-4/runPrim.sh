@@ -32,15 +32,15 @@ do
             printf "Running Prim Algorithm with input file: italian_dist_graph.csv\n"
             cd ./src || exit
             printf "Compiling..."
-            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/*.java
-            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/GenericPriorityQueue/*.java
-            javac -d ../classes/ -cp .:GraphLibrary:GraphLibrary/GenericPriorityQueue:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Prim/*.java
+            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Graph/*.java
+            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GenericPriorityQueue/*.java
+            javac -d ../classes/ -cp .:Graph:GenericPriorityQueue:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Prim/*.java
             printf "  Done!\n"
 
             cd .. || exit
             printf "Running Main...\n\n"
             cd ./classes || exit
-            java Prim.PrimMain "../input/italian_dist_graph.csv" torino notoriented
+            java Prim.Prim "../input/italian_dist_graph.csv"
             printf "Done! Exiting...\n"
             cd .. || exit
             exit 1
