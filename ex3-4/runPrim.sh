@@ -51,9 +51,9 @@ do
             printf "Running Graph Tests with JUnit tests\n"
             cd ./src || exit
             printf "Compiling..."
-            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/*.java
-            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/GenericPriorityQueue/*.java
-            javac -d ../classes/ -cp .:GraphLibrary:GraphLibrary/GenericPriorityQueue:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Prim/*.java
+                        javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Graph/*.java
+            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GenericPriorityQueue/*.java
+            javac -d ../classes/ -cp .:Graph:GenericPriorityQueue:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Prim/*.java
             printf "  Done\n"
 
             cd .. || exit
@@ -70,8 +70,8 @@ do
             printf "Running PriorityQueue tests with JUnit tests\n"
             cd ./src || exit
             printf "Compiling..."
-            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/*.java
-            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/GenericPriorityQueue/*.java
+            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Graph/*.java
+            javac -d ../classes/ -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GenericPriorityQueue/*.java
             printf "Done"
 
             cd .. || exit

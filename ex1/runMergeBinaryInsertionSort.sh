@@ -44,7 +44,7 @@ do
 
         2)
             echo "Running Merge Binary Insertion Sort tests with different K values..."
-            make -s run TYPE=4
+            make -s run TYPE=0
             exit 1
             ;;
 

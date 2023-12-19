@@ -1,5 +1,7 @@
 #include "SkipList.h"
 
+int global_max_height;
+
 struct SkipList {
   struct Node *head;
   size_t max_level;
@@ -41,7 +43,7 @@ int randomLevel(){
     struct timespec nstime;
     clock_gettime(CLOCK_MONOTONIC, &nstime);
     srand((unsigned int) (nstime.tv_nsec));
-    while ((rand() % 100) < 50 && level < MAX_HEIGHT) {
+    while ((rand() % 100) < 50 && level < global_max_height) {
         level++;
     }
     return level;
@@ -71,6 +73,7 @@ static void adapt_head_size(struct SkipList *list, int newSize) {
 //-------------------------------------------------------------
 
 void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const void *, const void*)){
+    global_max_height = max_height;
     struct SkipList* list_tmp = malloc(sizeof(struct SkipList));
     if(compar == NULL) {
         fprintf(stderr, "An error occured in create_skipList: parameter cannot be NULL \n");
@@ -81,7 +84,7 @@ void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const
         exit(EXIT_FAILURE);
     }
 
-    struct Node *h = createNode("head", 1);
+    struct Node *h = createNode("head", global_max_height);
 
     list_tmp->head = h;
     list_tmp->max_level = 0;
