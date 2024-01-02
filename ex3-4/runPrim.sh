@@ -10,7 +10,7 @@ print_usage() {
 }
 
 print_info(){
-  printf "Welcome to Prim's Algorithm and Generic Priority Queue implementations (exercise 3 and 4) by Dario Bonfiglio and Inyan Fornaroli!\n"
+  printf "Welcome to Prim's Algorithm and Generic Priority Queue implementations (exercise 3 and 4) by Dario Bonfiglio and Alessandra Gullì!\n"
   printf "This script will compile and run the Prim's Algorithm implementation\n"
   printf "You can choose to run the Prim's Algorithm implementation, the GraphLibrary tests or the PriorityQueue tests\n"
   printf "You can also choose to clear the classes/ folder\n"
@@ -59,7 +59,7 @@ do
             cd .. || exit
             printf "Running Graph Tests...\n\n"
             cd ./classes || exit
-            java -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Prim.PrimTestRunner
+            java -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar Graph/GraphJUnitRunner
             printf "Done! Exiting...\n"
             cd .. || exit
             exit 1
@@ -77,7 +77,7 @@ do
             cd .. || exit
             printf "Running PriorityQueue Tests...\n\n"
             cd ./classes || exit
-            java -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GraphLibrary/GenericPriorityQueue/PriorityQueueJUnitTest
+            java -cp .:../lib/junit-4.12.jar:../lib/hamcrest-core-1.3.jar GenericPriorityQueue/GPQjunitRunner
             printf "Done! Exiting...\n"
             cd .. || exit
             exit 1

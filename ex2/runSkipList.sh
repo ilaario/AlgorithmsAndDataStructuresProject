@@ -10,7 +10,7 @@ print_usage() {
 }
 
 print_info(){
-    printf "Welcome to the SkipList implementation (exercise 2) by Dario Bonfiglio and Inyan Fornaroli!\n"
+    printf "Welcome to the SkipList implementation (exercise 2) by Dario Bonfiglio and Alessandra Gullì!\n"
     printf "This script will compile and run the SkipList implementation\n"
     printf "You can choose to run the SkipList Algorithm implementation, the SkipList Algorithm implementation with different Height values or the Unity tests\n"
     printf "You can also choose to clear the build/ folder\n"

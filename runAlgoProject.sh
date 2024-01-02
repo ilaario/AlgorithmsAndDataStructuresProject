@@ -10,7 +10,7 @@ print_usage() {
 }
 
 print_info(){
-    printf "Welcome to Algorithms and Data Structures Project by Dario Bonfiglio and Inyan Fornaroli!\n"
+    printf "Welcome to Algorithms and Data Structures Project by Dario Bonfiglio and Alessandra Gullì!\n"
     printf "This script will compile and run all 4 exercises\n"
     printf "You can choose to run the merge_binary_insertion_sort implementation, the SkipList implementation or the GenericPriorityQueue/Prim implementation\n"
     printf "Please select a number from the Main Menu [1-3] or select 'Q' to quit.\n"

@@ -10,7 +10,7 @@ print_usage() {
 }
 
 print_info(){
-    printf "Welcome to the Merge Binary Insertion Sort implementation (exercise 1) by Dario Bonfiglio and Inyan Fornaroli!\n"
+    printf "Welcome to the Merge Binary Insertion Sort implementation (exercise 1) by Dario Bonfiglio and Alessandra Gullì!\n"
     printf "This script will compile and run the Merge Binary Insertion Sort implementation\n"
     printf "You can choose to run the Merge Binary Insertion Sort implementation, the Merge Binary Insertion Sort tests with different K values or the Unity tests\n"
     printf "You can also choose to clear the build/ folder\n"
