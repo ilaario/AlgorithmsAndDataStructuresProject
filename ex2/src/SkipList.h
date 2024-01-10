@@ -7,8 +7,6 @@
 #include <time.h>
 #include <ctype.h>
 
-#define MAX_HEIGHT 20
-
 struct SkipList;
 
 void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const void *, const void*));
