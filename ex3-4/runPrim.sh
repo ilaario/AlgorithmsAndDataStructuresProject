@@ -40,7 +40,7 @@ do
             cd .. || exit
             printf "Running Main...\n\n"
             cd ./classes || exit
-            java Prim.Prim "../input/italian_dist_graph.csv"
+            java Prim.Prim "../input/test.csv"
             printf "Done! Exiting...\n"
             cd .. || exit
             exit 1

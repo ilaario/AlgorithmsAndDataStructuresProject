@@ -4,23 +4,23 @@ import java.util.*;
 
 public class Graph<V, L extends Comparable<L>> implements AbstractGraph<V, L>{
     private final Map<V, Map<V, L>> graph;
-    private final boolean isDirected;
-    private final boolean isLabelled;
+    private final boolean dir;
+    private final boolean lab;
 
     public Graph(final boolean isDirected, final boolean isLabelled) {
         graph = new HashMap<>();
-        this.isDirected = isDirected;
-        this.isLabelled = isLabelled;
+        this.dir = isDirected;
+        this.lab = isLabelled;
     }
 
     @Override
     public boolean isDirected() {
-        return isDirected;
+        return this.dir;
     }
 
     @Override
     public boolean isLabelled() {
-        return this.isLabelled;
+        return this.lab;
     };
 
     @Override
@@ -38,7 +38,7 @@ public class Graph<V, L extends Comparable<L>> implements AbstractGraph<V, L>{
 
         graph.get(source).put(destination, weight);
 
-        if (!isDirected) {
+        if (!dir) {
             graph.get(destination).put(source, weight);
         }
 
@@ -55,6 +55,9 @@ public class Graph<V, L extends Comparable<L>> implements AbstractGraph<V, L>{
     public boolean containsEdge(V source, V destination) {
         if (source == null || destination == null || source.equals(destination)) return false;
         return graph.getOrDefault(source, Collections.emptyMap()).containsKey(destination);
+        /* if(graph.containsKey(source)){
+            return graph.get(source).containsKey(destination);
+        } else return Collections.emptyMap().containsKey(destination); */
     }
 
     @Override
@@ -73,7 +76,7 @@ public class Graph<V, L extends Comparable<L>> implements AbstractGraph<V, L>{
 
         graph.get(source).remove(destination);
 
-        if (!isDirected) {
+        if (!dir) {
             graph.get(destination).remove(source);
         }
 
@@ -89,7 +92,7 @@ public class Graph<V, L extends Comparable<L>> implements AbstractGraph<V, L>{
     public int numEdges() {
         int count = graph.keySet().stream().mapToInt(s -> graph.get(s).size()).sum();
 
-        return isDirected ? count : count / 2;
+        return dir ? count : count / 2;
     }
 
     @Override

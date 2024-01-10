@@ -46,7 +46,7 @@ public class PriorityQueue<E extends Comparable<? super E>> implements AbstractQ
         return true;
     }
 
-    private void swap(int i, int j) {
+    private void swap(int i /* 3 */, int j /* 7 */) {
         E tmp = queue.get(i);
         queue.set(i, queue.get(j));
         queue.set(j, tmp);

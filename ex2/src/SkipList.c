@@ -34,6 +34,7 @@ struct Node* createNode(void *item, int level){
     node->next = (struct Node **)malloc(level * sizeof(struct Node*));
     node->item = item;
     node->size = level;
+    printf("Node created with size %d\n", node->size);
 
     return node;
 }
@@ -121,7 +122,7 @@ void insert_skiplist(struct SkipList *list, void *item){
     }
     struct Node *temp = list->head;
     for(int k = list->max_level-1; k >= 0; k--) {
-        if(temp->next[k] == NULL || (*(list)->compare)(item, (temp->next[k])->item)) {
+        if(temp->next[k] == NULL || (*(list)->compare)((temp->next[k])->item, item) > 0) {
             if(k < newNode->size) {
                 newNode->next[k] = temp->next[k];
                 temp->next[k] = newNode;
@@ -147,11 +148,11 @@ const void* search_skiplist(struct SkipList *list, void *item){
     struct Node *temp = list->head;
     int i;
     for(i = list->max_level-1; i >= 0; i--) {
-        while(temp->next[i] != NULL && (*(list)->compare)((temp->next[i])->item, item) ) {
+        while(temp->next[i] != NULL && (*(list)->compare)((temp->next[i])->item, item)) {
             temp = temp->next[i];
         }
     }
-    if( (*(list)->compare)((temp->next[i+1])->item, item) == 0 && (*(list)->compare)(item,(temp->next[i+1])->item) == 0) {
+    if((*(list)->compare)((temp->next[i+1])->item, item) == 0) {
         return item;
     }
     else

@@ -75,6 +75,8 @@ public class Prim {
         return mst;
     }
 
+
+
     public static void main(String[] args) {
         Graph<String, Double> graph = readCSV(args[0], false, true);
         long start = System.nanoTime();

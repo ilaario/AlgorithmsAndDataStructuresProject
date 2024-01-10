@@ -3,20 +3,21 @@
 #define IS_LETTER(x) (((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z'))
 
 int compare(const void* v1, const void* v2) {
-  if(v1 == NULL){
+    if(v1 == NULL){
       fprintf(stderr,"precedes_string: the first parameter cannot be NULL \n");
       exit(EXIT_FAILURE);
-   }
-   if(v2 == NULL){
+    }
+    if(v2 == NULL){
       fprintf(stderr,"precedes_string: the second parameter cannot be NULL \n");
       exit(EXIT_FAILURE);
-   }
-   char *word1 = (char *)v1;
-   char *word2 = (char *)v2;
-    if (strcasecmp(word1, word2) < 0)
+    }
+    char *word1 = (char *)v1;
+    char *word2 = (char *)v2;
+    if (strcasecmp(word1, word2) > 0)
       return 1;
-
-   return 0;
+    else if (strcasecmp(word1, word2) < 0)
+      return -1;
+    return 0;
 }
 
 
