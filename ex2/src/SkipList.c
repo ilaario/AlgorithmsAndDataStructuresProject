@@ -74,6 +74,13 @@ static void adapt_head_size(struct SkipList *list, int newSize) {
 //-------------------------------------------------------------
 
 void new_skiplist(struct SkipList **list, size_t max_height, int (*compar)(const void *, const void*)){
+<<<<<<< HEAD
+=======
+    if(max_height < 0) {
+        fprintf(stderr, "An error occurred in create_skipList: second parameter cannot be negative \n");
+        exit(EXIT_FAILURE);
+    }
+>>>>>>> 0244c0cc970d325fc68acc3a93d459ae5129bba2
     global_max_height = max_height;
     struct SkipList* list_tmp = malloc(sizeof(struct SkipList));
     if(compar == NULL) {
